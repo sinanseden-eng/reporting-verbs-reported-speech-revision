@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Reporter's Toolkit: Mastering Reported Speech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B6B',
+                        secondary: '#4ECDC4',
+                        dark: '#2D3436',
+                        light: '#F7F9FC'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 400px;
+        }
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #FF6B6B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Smooth Accordion Transitions */
+        .examples-container {
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .examples-container.open {
+            opacity: 1;
+        }
+        
+        /* Tab Animations */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .main-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+        .main-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Interactive Elements */
+        .verb-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .verb-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Custom Scrollbar for tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <div class="container mx-auto px-4 py-8 md:px-8 max-w-7xl flex-grow">
+
+        <header class="text-center my-8 md:my-12">
+            <div class="inline-block p-2 px-4 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wide uppercase mb-4">Interactive Grammar</div>
+            <h1 class="text-5xl md:text-7xl font-black text-dark mb-4 leading-tight">The Reporter's <span class="text-primary">Toolkit</span></h1>
+            <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto font-light">Master the art of Reported Speech using the dramatic conflict of "The War of the Currents" between Edison and Tesla.</p>
+        </header>
+
+        <!-- MAIN NAVIGATION TABS -->
+        <nav class="flex justify-center mb-12">
+            <div class="bg-white p-1 rounded-full shadow-lg border border-gray-100 flex overflow-hidden">
+                <button onclick="switchMainTab('revision')" id="btn-revision" class="main-tab-btn rounded-full px-6 md:px-10 py-3 text-base md:text-lg font-bold transition-all duration-300 bg-dark text-white shadow-md">
+                    📚 Revision Guide
+                </button>
+                <button onclick="switchMainTab('tools')" id="btn-tools" class="main-tab-btn rounded-full px-6 md:px-10 py-3 text-base md:text-lg font-bold text-gray-500 hover:text-gray-800 transition-all duration-300">
+                    🛠️ Practice Lab
+                </button>
+            </div>
+        </nav>
+
+        <main>
+            <!-- ================= VIEW 1: REVISION GUIDE ================= -->
+            <div id="view-revision" class="main-view active space-y-12">
+                
+                <section id="reference-guide" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="bg-dark p-8 md:p-10 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white relative z-10">Master Reference Guide</h2>
+                        <p class="text-gray-300 mt-2 relative z-10 text-lg">The definitive rules for transforming direct speech.</p>
+                    </div>
+
+                    <!-- Sub-Tabs Navigation -->
+                    <div class="flex flex-wrap border-b border-gray-200 bg-gray-50/50">
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-dark border-b-4 border-primary bg-white transition-all duration-200" onclick="switchSubTab(this, 'tenses')">
+                            ⏳ Tense Backshift
+                        </button>
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-100 transition-all duration-200" onclick="switchSubTab(this, 'time')">
+                            📍 Time & Place
+                        </button>
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-100 transition-all duration-200" onclick="switchSubTab(this, 'other')">
+                            👤 Pronouns & Others
+                        </button>
+                    </div>
+
+                    <!-- Sub-Tabs Content -->
+                    <div class="p-6 md:p-10">
+                        
+                        <!-- Content: Tenses -->
+                        <div id="tenses" class="tab-content active space-y-8">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">1</div>
+                                <h3 class="text-2xl font-bold text-gray-800">The "One Step Back" Rule</h3>
+                            </div>
+                            
+                            <div class="overflow-x-auto custom-scrollbar rounded-xl border border-gray-200 shadow-sm">
+                                <table class="w-full text-left border-collapse bg-white">
+                                    <thead>
+                                        <tr class="bg-gray-50 border-b border-gray-200">
+                                            <th class="p-5 font-bold text-gray-500 uppercase text-xs tracking-wider w-1/2">Direct Speech (The original words)</th>
+                                            <th class="p-5 font-bold text-gray-500 uppercase text-xs tracking-wider w-1/2">Reported Speech (The report)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-gray-100 text-sm md:text-base">
+                                        <!-- Present Simple -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Present Simple</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">work</span> here."</li>
+                                                    <li>"She <span class="font-bold bg-primary/10 px-1 rounded">loves</span> pizza."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Past Simple</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">worked</span> there.</li>
+                                                    <li>He said she <span class="font-bold bg-gray-200 px-1 rounded">loved</span> pizza.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Present Continuous -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Present Continuous</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">am working</span> now."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Past Continuous</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">was working</span> then.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Past Simple -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Past Simple</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">bought</span> a car."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Past Perfect</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">had bought</span> a car.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Present Perfect -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Present Perfect</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">have finished</span>."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Past Perfect</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">had finished</span>.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Will -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Will (Future)</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">will</span> call you."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Would</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">would</span> call me.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Can -->
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top group-hover:pl-6 transition-all">
+                                                <span class="font-bold text-primary block mb-2 text-lg">Can</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>"I <span class="font-bold bg-primary/10 px-1 rounded">can</span> swim."</li>
+                                                </ul>
+                                            </td>
+                                            <td class="p-5 align-top">
+                                                <span class="font-bold text-dark block mb-2 text-lg">Could</span>
+                                                <ul class="space-y-1 text-gray-600">
+                                                    <li>He said he <span class="font-bold bg-gray-200 px-1 rounded">could</span> swim.</li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- New Remark for Present Tense Reporting Verbs -->
+                            <div class="mt-8 bg-green-50 p-6 md:p-8 rounded-xl border-l-4 border-green-500">
+                                <div class="flex items-start gap-4">
+                                    <div class="text-3xl">💡</div>
+                                    <div class="w-full">
+                                        <h5 class="font-bold text-green-800 text-xl mb-2">Exception: Present Tense Reporting Verbs</h5>
+                                        <p class="text-gray-700 mb-4">If the introductory word is <strong>says</strong> or <strong>tells</strong> (present tense), there is <strong>no change</strong> in the grammar tense of the reported speech.</p>
+                                        
+                                        <div class="grid md:grid-cols-2 gap-4">
+                                            <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Direct</p>
+                                                <p class="mb-2">"I <span class="font-bold text-primary">like</span> coffee."</p>
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Reported</p>
+                                                <p>He <strong>says</strong> he <span class="font-bold text-green-600">likes</span> coffee.</p>
+                                            </div>
+                                            <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Direct</p>
+                                                <p class="mb-2">"I <span class="font-bold text-primary">will</span> be late."</p>
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Reported</p>
+                                                <p>She <strong>says</strong> she <span class="font-bold text-green-600">will</span> be late.</p>
+                                            </div>
+                                            <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Direct</p>
+                                                <p class="mb-2">"We <span class="font-bold text-primary">are</span> working."</p>
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Reported</p>
+                                                <p>They <strong>say</strong> they <span class="font-bold text-green-600">are</span> working.</p>
+                                            </div>
+                                            <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Direct</p>
+                                                <p class="mb-2">"I <span class="font-bold text-primary">bought</span> a car."</p>
+                                                <p class="text-xs text-gray-500 uppercase font-bold mb-1">Reported</p>
+                                                <p>He <strong>says</strong> he <span class="font-bold text-green-600">bought</span> a car.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content: Time & Place -->
+                        <div id="time" class="tab-content space-y-8">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-600 text-xl">2</div>
+                                <h3 class="text-2xl font-bold text-gray-800">Shifting Perspective</h3>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="bg-yellow-50 p-8 rounded-2xl border border-yellow-100">
+                                    <h4 class="font-bold text-gray-800 text-xl mb-6 flex items-center">
+                                        <span class="text-2xl mr-2">⏰</span> Time Expressions
+                                    </h4>
+                                    <ul class="space-y-4">
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Now</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">Then / At that time</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Today</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">That day</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Yesterday</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">The day before</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Tomorrow</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">The following day</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Last week</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">The previous week</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bg-indigo-50 p-8 rounded-2xl border border-indigo-100">
+                                    <h4 class="font-bold text-gray-800 text-xl mb-6 flex items-center">
+                                        <span class="text-2xl mr-2">📍</span> Place & Pointers
+                                    </h4>
+                                    <ul class="space-y-4">
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Here</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">There</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">This</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">That</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">These</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">Those</span>
+                                        </li>
+                                        <li class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                            <span class="text-gray-500">Ago</span> 
+                                            <span class="text-gray-300">➜</span>
+                                            <span class="font-bold text-dark">Before</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- Smart Changes Section -->
+                            <div class="mt-8 bg-purple-50 p-8 rounded-2xl border border-purple-100">
+                                <h4 class="font-bold text-gray-800 text-xl mb-6 flex items-center">
+                                    <span class="text-2xl mr-2">🧠</span> Smart Changes (Context Dependent)
+                                </h4>
+                                <p class="mb-6 text-gray-600">Verbs of movement can change completely depending on where the speaker is <em>now</em> versus <em>then</em>.</p>
+                                
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <span class="font-bold text-lg text-primary">Come</span>
+                                            <span class="text-gray-400">➜</span>
+                                            <span class="font-bold text-lg text-dark">Go</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-2 italic">Use when the reporter is NOT at the destination.</p>
+                                        <div class="bg-purple-50/50 p-3 rounded text-sm">
+                                            <p class="mb-1"><span class="font-bold">Direct:</span> "Come to my office."</p>
+                                            <p><span class="font-bold">Reported:</span> He told me to <span class="font-bold text-purple-600">go</span> to his office.</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white p-5 rounded-xl border border-purple-100 shadow-sm">
+                                        <div class="flex justify-between items-center mb-3">
+                                            <span class="font-bold text-lg text-primary">Bring</span>
+                                            <span class="text-gray-400">➜</span>
+                                            <span class="font-bold text-lg text-dark">Take</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500 mb-2 italic">Use when moving an object away from the speaker.</p>
+                                        <div class="bg-purple-50/50 p-3 rounded text-sm">
+                                            <p class="mb-1"><span class="font-bold">Direct:</span> "Bring the report here."</p>
+                                            <p><span class="font-bold">Reported:</span> He told me to <span class="font-bold text-purple-600">take</span> the report there.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Content: Other -->
+                        <div id="other" class="tab-content space-y-8">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-green-400/20 flex items-center justify-center text-green-600 text-xl">3</div>
+                                <h3 class="text-2xl font-bold text-gray-800">Pronouns & Questions</h3>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div>
+                                    <h4 class="font-bold text-lg mb-4 text-gray-700">👤 Pronoun Logic</h4>
+                                    <div class="bg-blue-50 p-6 rounded-xl border-l-4 border-blue-500 h-full">
+                                        <p class="mb-6 text-gray-600">Pronouns change based on context. Ask yourself: <em>Who is speaking?</em></p>
+                                        <div class="bg-white p-4 rounded-lg shadow-sm text-center">
+                                            <p class="font-serif italic text-lg text-gray-500">"<strong>I</strong> like <strong>my</strong> car."</p>
+                                            <p class="text-xs text-gray-400 mt-1 uppercase tracking-wide">— John says</p>
+                                            <div class="text-2xl my-2 text-blue-500">↓</div>
+                                            <p class="font-bold text-gray-800">John said that <strong>he</strong> liked <strong>his</strong> car.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 class="font-bold text-lg mb-4 text-gray-700">❓ Reporting Questions</h4>
+                                    <div class="space-y-4">
+                                        <!-- Yes/No Questions -->
+                                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                            <p class="font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">Yes/No Questions</p>
+                                            <p class="mb-2">Use <strong>if</strong> or <strong>whether</strong>.</p>
+                                            <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                                <p><span class="text-gray-400">Direct:</span> "Do you like coffee?"</p>
+                                                <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">if</span> I liked coffee.</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Wh- Questions -->
+                                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                            <p class="font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">Wh- Questions (What, Where...)</p>
+                                            <p class="mb-2">Keep the question word.</p>
+                                            <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                                <p><span class="text-gray-400">Direct:</span> "Where do you live?"</p>
+                                                <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">where</span> I lived.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Word Order Warning -->
+                            <div class="bg-red-50 p-6 rounded-xl border-l-4 border-red-500 flex items-start gap-4">
+                                <div class="text-3xl">⚠️</div>
+                                <div>
+                                    <h5 class="font-bold text-red-700 text-lg">Crucial Rule: Word Order</h5>
+                                    <p class="mt-1 text-gray-700">In reported questions, the word order changes back to a statement (Subject + Verb). <strong>Do NOT</strong> use "do/did" auxiliary verbs.</p>
+                                    <div class="mt-3 grid md:grid-cols-2 gap-4 text-sm">
+                                        <div class="bg-red-100/50 p-2 rounded text-red-800 font-mono">❌ Wrong: He asked where did I live.</div>
+                                        <div class="bg-green-100/50 p-2 rounded text-green-800 font-mono">✅ Right: He asked where I lived.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= VIEW 2: REPORTING TOOLS ================= -->
+            <div id="view-tools" class="main-view space-y-16">
+                
+                <section id="practice-zone">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                        <div class="bg-dark p-8 text-center">
+                            <h2 class="text-3xl font-bold text-white mb-2">The Reporting Simulator</h2>
+                            <p class="text-gray-400">Step into the shoes of a 19th-century journalist.</p>
+                        </div>
+                        
+                        <div class="p-8">
+                            <p class="text-center mb-8 max-w-2xl mx-auto text-gray-600">
+                                You are covering the "War of the Currents." Get a direct quote from a historical figure, then report it using the specified verb. Our AI Editor will grade your accuracy.
+                            </p>
+                            
+                            <div class="text-center mb-8">
+                                <button id="generate-scenario-btn" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-red-500 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center mx-auto gap-2">
+                                    <span>🎲</span> Generate New Scenario
+                                </button>
+                            </div>
+
+                            <div id="scenario-box" class="max-w-3xl mx-auto bg-gray-50 rounded-2xl p-6 md:p-8 border-2 border-dashed border-gray-300 hidden">
+                                <div class="flex flex-col md:flex-row gap-6 items-start">
+                                    <div class="flex-1 w-full">
+                                        <div class="mb-6">
+                                            <h4 class="font-bold text-gray-500 text-xs uppercase tracking-wider mb-2">Instructions</h4>
+                                            <p id="scenario-text" class="text-lg font-medium text-gray-800">Report this using "claimed".</p>
+                                        </div>
+                                        
+                                        <div class="mb-6">
+                                            <h4 class="font-bold text-gray-500 text-xs uppercase tracking-wider mb-2">Direct Quote</h4>
+                                            <div class="bg-white p-4 rounded-lg border-l-4 border-primary shadow-sm">
+                                                <p id="direct-quote-text" class="font-serif text-xl italic text-gray-800 leading-relaxed">"..."</p>
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <h4 class="font-bold text-gray-500 text-xs uppercase tracking-wider mb-2">Your Report</h4>
+                                            <textarea id="user-input" class="w-full p-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm font-medium" rows="3" placeholder="Type your answer here... e.g., Edison claimed that..."></textarea>
+                                            
+                                            <button id="check-sentence-btn" class="mt-4 w-full bg-dark text-white font-bold py-3 px-6 rounded-xl hover:bg-black transition-colors flex justify-center items-center gap-2">
+                                                <span>✨</span> Get AI Feedback
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="feedback-box" class="mt-6 hidden">
+                                    <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+                                        <h4 class="font-bold text-blue-800 mb-2 flex items-center gap-2">
+                                            <span>📝</span> Editor's Feedback
+                                        </h4>
+                                        <div id="feedback-loader" class="loader my-4 hidden"></div>
+                                        <p id="feedback-text" class="text-blue-900 whitespace-pre-wrap leading-relaxed"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="reporting-verbs">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-dark mb-4">The Reporter's Dictionary</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Grouped by grammatical pattern. Choose the right tool for the job.</p>
+                    </div>
+                    
+                    <div id="verb-groups-container" class="space-y-12">
+                        <!-- Groups injected by JS -->
+                    </div>
+                </section>
+
+                <section id="verb-strength">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-dark mb-4">Verb Functions Analytics</h2>
+                        <p class="text-gray-600">Distribution of reporting verbs by their communicative function.</p>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+                        <div class="chart-container">
+                            <canvas id="verbFunctionChart"></canvas>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </main>
+        
+        <footer class="mt-auto py-12 text-center text-gray-400 text-sm">
+            <p>© 2025 The Reporter's Toolkit. Built with Tailwind & Gemini.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- API Configuration ---
+        const apiKey = ""; // API key is handled by environment
+        
+        // --- Tab Logic ---
+        function switchMainTab(viewName) {
+            // UI State
+            document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.main-tab-btn').forEach(el => {
+                el.classList.remove('bg-dark', 'text-white', 'shadow-md');
+                el.classList.add('text-gray-500');
+            });
+
+            // Activate Target
+            document.getElementById('view-' + viewName).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + viewName);
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('bg-dark', 'text-white', 'shadow-md');
+            
+            // Scroll to top gently
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchSubTab(btn, tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            
+            // Reset buttons
+            document.querySelectorAll('.sub-tab-btn').forEach(el => {
+                el.classList.remove('text-dark', 'border-primary', 'bg-white');
+                el.classList.add('text-gray-500', 'border-transparent');
+            });
+
+            // Activate content and button
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.remove('text-gray-500', 'border-transparent');
+            btn.classList.add('text-dark', 'border-primary', 'bg-white');
+        }
+
+        // --- Data: Reporting Verbs Groups ---
+        const reportingVerbGroups = {
+            "Verb + Infinitive": [
+                { 
+                    verb: 'agree', 
+                    func: 'Agreeing', 
+                    pattern: 'Verb + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + to + Infinitive',
+                        example: 'Tesla **agreed to share** his patents.',
+                        thatExample: 'Tesla **agreed that** he would share his patents.'
+                    }
+                },
+                { 
+                    verb: 'promise', 
+                    func: 'Promising', 
+                    pattern: 'Verb + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + to + Infinitive',
+                        example: 'Westinghouse **promised to pay** the royalties.',
+                        thatExample: 'He **promised that** he would pay the royalties.'
+                    }
+                },
+                { 
+                    verb: 'threaten', 
+                    func: 'Threatening', 
+                    pattern: 'Verb + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + to + Infinitive',
+                        example: 'Edison **threatened to discredit** AC power.',
+                        thatExample: 'He **threatened that** he would discredit AC power.'
+                    }
+                },
+                { 
+                    verb: 'refuse', 
+                    func: 'Refusing', 
+                    pattern: 'Verb + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + to + Infinitive',
+                        example: 'Tesla **refused to accept** the Nobel Prize.',
+                        thatExample: 'He stated **that** he refused to accept it.'
+                    }
+                }
+            ],
+            "Verb + Object + Infinitive": [
+                { 
+                    verb: 'advise', 
+                    func: 'Advising', 
+                    pattern: 'Verb + Object + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + Obj + to + Inf',
+                        example: 'They **advised Tesla to ignore** the attacks.',
+                        thatExample: 'They **advised that** Tesla should ignore the attacks.'
+                    }
+                },
+                { 
+                    verb: 'remind', 
+                    func: 'Reminding', 
+                    pattern: 'Verb + Object + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + Obj + to + Inf',
+                        example: 'His assistant **reminded him to attend** the meeting.',
+                        thatExample: 'He **reminded him that** he needed to attend.'
+                    }
+                },
+                { 
+                    verb: 'warn', 
+                    func: 'Warning', 
+                    pattern: 'Verb + Object + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + Obj + to + Inf',
+                        example: 'Edison **warned the public to avoid** AC wires.',
+                        thatExample: 'Edison **warned that** AC wires were dangerous.'
+                    }
+                },
+                { 
+                    verb: 'encourage', 
+                    func: 'Encouraging', 
+                    pattern: 'Verb + Object + to + infinitive',
+                    rules: {
+                        pattern: 'Verb + Obj + to + Inf',
+                        example: 'Investors **encouraged him to continue** his work.',
+                        thatExample: 'They **encouraged the idea that** he continue.'
+                    }
+                }
+            ],
+            "Verb + Gerund (-ing)": [
+                { 
+                    verb: 'admit', 
+                    func: 'Admitting', 
+                    pattern: 'Verb + -ing',
+                    rules: {
+                        pattern: 'Verb + -ing',
+                        example: 'The company **admitted losing** the contract.',
+                        thatExample: 'The company **admitted that** they lost the contract.'
+                    }
+                },
+                { 
+                    verb: 'deny', 
+                    func: 'Denying', 
+                    pattern: 'Verb + -ing',
+                    rules: {
+                        pattern: 'Verb + -ing',
+                        example: 'Edison **denied misleading** the public.',
+                        thatExample: 'Edison **denied that** he misled the public.'
+                    }
+                },
+                { 
+                    verb: 'suggest', 
+                    func: 'Suggesting', 
+                    pattern: 'Verb + -ing',
+                    rules: {
+                        pattern: 'Verb + -ing',
+                        example: 'Tesla **suggested using** waterfalls for power.',
+                        thatExample: 'Tesla **suggested that** they use waterfalls.'
+                    }
+                },
+                { 
+                    verb: 'recommend', 
+                    func: 'Recommending', 
+                    pattern: 'Verb + -ing',
+                    rules: {
+                        pattern: 'Verb + -ing',
+                        example: 'Experts **recommended switching** to AC.',
+                        thatExample: 'Experts **recommended that** they switch to AC.'
+                    }
+                },
+                { 
+                    verb: 'regret', 
+                    func: 'Regretting', 
+                    pattern: 'Verb + -ing',
+                    rules: {
+                        pattern: 'Verb + -ing',
+                        example: 'He **regretted selling** his patents so early.',
+                        thatExample: 'He **regretted that** he sold his patents.'
+                    }
+                }
+            ],
+            "Verb + Preposition": [
+                { 
+                    verb: 'apologize', 
+                    func: 'Apologizing', 
+                    pattern: 'Apologize + for + -ing',
+                    rules: {
+                        pattern: 'Verb + for + -ing',
+                        example: 'He **apologized for being** late.',
+                        thatExample: 'He **said he was sorry that** he was late.'
+                    }
+                },
+                { 
+                    verb: 'insist', 
+                    func: 'Insisting', 
+                    pattern: 'Insist + on + -ing',
+                    rules: {
+                        pattern: 'Verb + on + -ing',
+                        example: 'Tesla **insisted on testing** the motor again.',
+                        thatExample: 'Tesla **insisted that** he test the motor again.'
+                    }
+                }
+            ]
+        };
+
+        // Flatten verbs for simulator and chart
+        const allVerbs = Object.values(reportingVerbGroups).flat();
+
+        // --- DOM Generation ---
+        function createVerbCard(item) {
+            const card = document.createElement('div');
+            card.className = 'verb-card bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full';
+            
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-2xl font-bold capitalize text-dark">${item.verb}</h3>
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-md uppercase tracking-wide">${item.func}</span>
+                </div>
+                
+                <div class="space-y-4 mt-2">
+                    <div class="bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
+                        <div class="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-1">Rule: ${item.rules.pattern}</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.example.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-600">$1</strong>')}</p>
+                    </div>
+
+                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
+                        <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">That-Clause</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.thatExample.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}</p>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function renderVerbGroups() {
+            const container = document.getElementById('verb-groups-container');
+            container.innerHTML = '';
+
+            for (const [groupName, verbs] of Object.entries(reportingVerbGroups)) {
+                // Group Header
+                const header = document.createElement('div');
+                header.innerHTML = `
+                    <h3 class="text-xl font-bold text-gray-400 uppercase tracking-widest border-b border-gray-200 pb-2 mb-6 flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                        ${groupName}
+                    </h3>
+                `;
+                container.appendChild(header);
+
+                // Grid for this group
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12';
+                
+                verbs.forEach(verb => {
+                    grid.appendChild(createVerbCard(verb));
+                });
+                
+                container.appendChild(grid);
+            }
+        }
+
+        // --- Chart Logic ---
+        function initChart() {
+            const ctx = document.getElementById('verbFunctionChart');
+            if (!ctx) return;
+
+            const functions = {};
+            allVerbs.forEach(v => {
+                if (!functions[v.func]) functions[v.func] = 0;
+                functions[v.func]++;
+            });
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(functions),
+                    datasets: [{
+                        label: 'Count',
+                        data: Object.values(functions),
+                        backgroundColor: [
+                            'rgba(255, 107, 107, 0.8)', // Primary
+                            'rgba(78, 205, 196, 0.8)',  // Secondary
+                            'rgba(255, 209, 102, 0.8)', // Yellow
+                            'rgba(45, 52, 54, 0.8)',    // Dark
+                            'rgba(6, 214, 160, 0.8)'    // Green
+                        ],
+                        borderRadius: 6,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#2D3436',
+                            padding: 12,
+                            titleFont: { family: 'Inter', size: 14 },
+                            bodyFont: { family: 'Inter', size: 13 }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter' } }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { family: 'Inter', weight: 'bold' } }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        }
+
+        // --- Gemini API Logic ---
+        async function callGeminiWithExponentialBackoff(prompt, maxRetries = 3) {
+            let delay = 1000;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { 
+                contents: [{ role: "user", parts: [{ text: prompt }] }],
+                generationConfig: {
+                    temperature: 0.9,
+                    topK: 40,
+                    topP: 0.95,
+                }
+            };
+
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(apiUrl, { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify(payload) 
+                    });
+                    
+                    if (!response.ok) throw new Error(`Status: ${response.status}`);
+                    
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+                    
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        console.error("API Failure", error);
+                        return null;
+                    }
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- App Initialization & Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render Verb Groups
+            renderVerbGroups();
+
+            // Init Chart
+            initChart();
+
+            // Scenario Generator Logic
+            const generateBtn = document.getElementById('generate-scenario-btn');
+            const scenarioBox = document.getElementById('scenario-box');
+            const scenarioText = document.getElementById('scenario-text');
+            const directQuoteText = document.getElementById('direct-quote-text');
+            const userInput = document.getElementById('user-input');
+            const checkBtn = document.getElementById('check-sentence-btn');
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackLoader = document.getElementById('feedback-loader');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            let currentVerb = '';
+
+            generateBtn.addEventListener('click', async () => {
+                // UI Loading State
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="loader border-t-white w-5 h-5 border-2"></span> Generating...';
+                scenarioBox.classList.add('hidden');
+                
+                // Random Verb from flattened list
+                const randomVerb = allVerbs[Math.floor(Math.random() * allVerbs.length)];
+                currentVerb = randomVerb.verb;
+
+                // API Call
+                const prompt = `Generate a JSON object with a single key "quote". The value should be a short, direct quote (1 sentence) spoken by Thomas Edison or Nikola Tesla during the War of the Currents. The quote must be suitable for reporting using the verb "${currentVerb}". Example: {"quote": "AC power is far superior."}`;
+                
+                const response = await callGeminiWithExponentialBackoff(prompt);
+
+                if (response) {
+                    try {
+                        // Clean markdown if present
+                        const jsonStr = response.replace(/```json|```/g, '').trim();
+                        const data = JSON.parse(jsonStr);
+                        
+                        // Update UI
+                        scenarioBox.classList.remove('hidden');
+                        scenarioText.innerHTML = `Report this quote using <span class="text-primary font-bold">"${currentVerb}"</span>.`;
+                        directQuoteText.textContent = `"${data.quote}"`;
+                        userInput.value = '';
+                        feedbackBox.classList.add('hidden');
+                        
+                        // Scroll to task
+                        setTimeout(() => scenarioBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+                    } catch (e) {
+                        alert("Could not parse the history books. Please try again!");
+                    }
+                } else {
+                    alert("The telegraph lines are down (API Error). Please try again.");
+                }
+
+                // Reset Button
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<span>🎲</span> Generate New Scenario';
+            });
+
+            checkBtn.addEventListener('click', async () => {
+                const userSentence = userInput.value.trim();
+                if (!userSentence) return;
+
+                // UI Loading
+                checkBtn.disabled = true;
+                checkBtn.innerHTML = 'Analyzing...';
+                feedbackBox.classList.remove('hidden');
+                feedbackLoader.classList.remove('hidden');
+                feedbackText.innerHTML = '';
+
+                const prompt = `Act as a supportive English grammar teacher. 
+                Task: A student is converting a Direct Quote to Reported Speech.
+                Verb to use: "${currentVerb}"
+                Direct Quote: "${directQuoteText.textContent}"
+                Student Answer: "${userSentence}"
+                
+                Please provide:
+                1. A verdict (Correct/Incorrect) with an emoji.
+                2. A brief explanation of the grammar rules (tense shift, pronouns, pattern).
+                3. The perfect version if theirs was wrong.
+                Keep it concise and encouraging.`;
+
+                const response = await callGeminiWithExponentialBackoff(prompt);
+
+                feedbackLoader.classList.add('hidden');
+                feedbackText.innerHTML = response || "Could not generate feedback.";
+                checkBtn.disabled = false;
+                checkBtn.innerHTML = '<span>✨</span> Get AI Feedback';
+            });
+        });
+    </script>
+</body>
+</html>
