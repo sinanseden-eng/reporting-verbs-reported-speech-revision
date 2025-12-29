@@ -101,6 +101,32 @@
             transform: translateY(-4px);
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
+        
+        /* Detective Card Styles */
+        .detective-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .detective-card:hover {
+            border-color: #FF6B6B;
+            background-color: #FFF5F5;
+        }
+        .detective-card .reveal-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .detective-card.revealed .reveal-content {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e5e7eb;
+        }
+        .detective-card.revealed .question-mark {
+            display: none;
+        }
 
         /* Custom Scrollbar for tables */
         .custom-scrollbar::-webkit-scrollbar {
@@ -579,6 +605,18 @@
                     </div>
                 </section>
 
+                <!-- NEW SECTION: VERB DETECTIVE -->
+                <section id="verb-detective">
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-dark mb-4">Verb Detective: Spot the Intention 🕵️</h2>
+                        <p class="text-gray-600 max-w-2xl mx-auto">Read the sentence, decide the intention (e.g., Threatening, Advising), then click to reveal the correct reported verb.</p>
+                    </div>
+                    
+                    <div id="detective-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                        <!-- Detective cards injected by JS -->
+                    </div>
+                </section>
+
                 <section id="verb-strength">
                     <div class="text-center mb-10">
                         <h2 class="text-3xl font-bold text-dark mb-4">Verb Functions Analytics</h2>
@@ -804,6 +842,25 @@
 
         // Flatten verbs for simulator and chart
         const allVerbs = Object.values(reportingVerbGroups).flat();
+        
+        // --- Verb Detective Data ---
+        const verbDetectiveData = [
+            { quote: "Okay, I will share the patent with you.", intention: "Agreeing", verb: "agreed", reported: "He **agreed** to share the patent." },
+            { quote: "I give you my word, I will pay the full amount.", intention: "Promising", verb: "promised", reported: "He **promised** to pay the full amount." },
+            { quote: "If you don't stop, I will destroy your reputation!", intention: "Threatening", verb: "threatened", reported: "He **threatened** to destroy his reputation." },
+            { quote: "No! I absolutely will not accept the prize.", intention: "Refusing", verb: "refused", reported: "He **refused** to accept the prize." },
+            { quote: "You really should ignore those attacks, Tesla.", intention: "Advising", verb: "advised", reported: "He **advised** Tesla to ignore the attacks." },
+            { quote: "Don't forget to attend the meeting tomorrow.", intention: "Reminding", verb: "reminded", reported: "He **reminded** him to attend the meeting." },
+            { quote: "Don't touch those live wires! They are dangerous!", intention: "Warning", verb: "warned", reported: "He **warned** them not to touch the live wires." },
+            { quote: "Go on, continue your work. You're doing great.", intention: "Encouraging", verb: "encouraged", reported: "He **encouraged** him to continue his work." },
+            { quote: "Yes, it's true. We lost the contract.", intention: "Admitting", verb: "admitted", reported: "He **admitted** losing the contract." },
+            { quote: "I did not mislead the public! That's a lie!", intention: "Denying", verb: "denied", reported: "He **denied** misleading the public." },
+            { quote: "Why don't we use Niagara Falls for power?", intention: "Suggesting", verb: "suggested", reported: "He **suggested** using Niagara Falls for power." },
+            { quote: "It would be best to switch to AC power now.", intention: "Recommending", verb: "recommended", reported: "He **recommended** switching to AC power." },
+            { quote: "I wish I hadn't sold my patents so early.", intention: "Regretting", verb: "regretted", reported: "He **regretted** selling his patents so early." },
+            { quote: "I am very sorry for being late.", intention: "Apologizing", verb: "apologized", reported: "He **apologized** for being late." },
+            { quote: "I really must test the motor one more time.", intention: "Insisting", verb: "insisted", reported: "He **insisted** on testing the motor again." }
+        ];
 
         // --- DOM Generation ---
         function createVerbCard(item) {
@@ -825,6 +882,42 @@
                     <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
                         <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">That-Clause</div>
                         <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.thatExample.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}</p>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function createDetectiveCard(item) {
+            const card = document.createElement('div');
+            card.className = 'detective-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md relative overflow-hidden group';
+            card.onclick = function() {
+                if (!this.classList.contains('revealed')) {
+                    this.classList.add('revealed');
+                }
+            };
+
+            card.innerHTML = `
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <span class="text-6xl">🕵️</span>
+                </div>
+                
+                <div class="mb-4">
+                    <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Direct Quote</div>
+                    <p class="font-serif italic text-xl text-gray-800 leading-relaxed">"${item.quote}"</p>
+                </div>
+
+                <div class="question-mark text-center py-4">
+                    <p class="text-sm font-bold text-primary animate-pulse">Click to Reveal Intention</p>
+                </div>
+
+                <div class="reveal-content">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-sm font-bold text-gray-500 uppercase">Intention:</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase">${item.intention}</span>
+                    </div>
+                    <div class="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <p class="text-gray-800">${item.reported.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}</p>
                     </div>
                 </div>
             `;
@@ -856,6 +949,14 @@
                 
                 container.appendChild(grid);
             }
+        }
+        
+        function renderDetectiveGame() {
+            const container = document.getElementById('detective-container');
+            container.innerHTML = '';
+            verbDetectiveData.forEach(item => {
+                container.appendChild(createDetectiveCard(item));
+            });
         }
 
         // --- Chart Logic ---
@@ -959,6 +1060,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             // Render Verb Groups
             renderVerbGroups();
+            
+            // Render Detective Game
+            renderDetectiveGame();
 
             // Init Chart
             initChart();
