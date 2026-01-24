@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>#MatchDay Challenge</title>
+    <title>The Reporter's Toolkit: Mastering Reported Speech</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:wght@700;900&family=Courier+Prime:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
                     colors: {
-                        brand: {
-                            purple: '#8B5CF6',
-                            pink: '#EC4899',
-                            orange: '#F97316',
-                            dark: '#0F172A',
-                            red: '#E30A17', // TR Red
-                            brazilYellow: '#FFDF00', // Brazil Yellow
-                            brazilGreen: '#009C3B', // Brazil Green
-                            brazilBlue: '#002776' // Brazil Blue
-                        }
+                        primary: '#FF6B6B',
+                        secondary: '#4ECDC4',
+                        dark: '#2D3436',
+                        light: '#F7F9FC',
+                        paper: '#FDFBF7',
+                        police: '#1a237e',
+                        emergency: '#C51111',
+                        blooket: '#0bc2cf',
+                        baamboozle: '#473bf0',
+                        gold: '#F59E0B'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        mono: ['Courier Prime', 'monospace'],
+                        game: ['Fredoka One', 'cursive']
+                    },
+                    backgroundImage: {
+                        'paper-pattern': "url('https://www.transparenttextures.com/patterns/cream-paper.png')",
+                        'jail-bars': "repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0,0,0,0.1) 40px, rgba(0,0,0,0.1) 50px)"
                     },
                     animation: {
-                        'gradient-x': 'gradient-x 3s ease infinite',
-                        'float': 'float 6s ease-in-out infinite',
                         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                    },
-                    keyframes: {
-                        'gradient-x': {
-                            '0%, 100%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'left center'
-                            },
-                            '50%': {
-                                'background-size': '200% 200%',
-                                'background-position': 'right center'
-                            },
-                        },
-                        'float': {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        }
+                        'bounce-slight': 'bounce 2s infinite',
                     }
                 }
             }
@@ -52,338 +45,1237 @@
     </script>
     <style>
         body {
-            background-color: #0F172A;
-            color: white;
-            /* Subtle stadium lights background effect */
-            background-image: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 70%);
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb;
+            color: #1f2937;
         }
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
         }
-        .strategy-card {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 400px;
         }
-        .strategy-card:hover {
-            transform: translateY(-5px);
-            border-color: #E30A17; /* TR Red Hover */
-            background: rgba(227, 10, 23, 0.1);
+        .loader {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #FF6B6B;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
         }
-        .selected-card {
-            border-color: #F97316;
-            background: rgba(249, 115, 22, 0.15);
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        /* Flag Styles */
-        .flag-icon {
-            font-size: 3rem; 
-            line-height: 1;
-            display: inline-block;
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        
+        /* Smooth Accordion Transitions */
+        .examples-container {
+            transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out, margin-top 0.3s ease;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
         }
-        .vs-badge {
-            background: linear-gradient(135deg, #1f2937, #000);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 900;
-            font-style: italic;
-            letter-spacing: 0.1em;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        .examples-container.open {
+            opacity: 1;
         }
-        /* Word Bank Tag */
-        .word-tag {
+        
+        /* Tab Animations */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .main-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+        .main-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Interactive Elements */
+        .verb-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .verb-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Detective Card Styles */
+        .detective-card {
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .detective-card:hover {
+            border-color: #FF6B6B;
+            background-color: #FFF5F5;
+        }
+        .detective-card .reveal-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .detective-card.revealed .reveal-content {
+            max-height: 200px;
+            opacity: 1;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #e5e7eb;
+        }
+        .detective-card.revealed .question-mark {
+            display: none;
+        }
+
+        /* Drill Styles */
+        .drill-btn {
             transition: all 0.2s;
-            border: 1px solid rgba(255,255,255,0.3);
         }
-        .word-tag:hover {
-            background: rgba(255,255,255,0.1);
+        .drill-btn.correct {
+            background-color: #10B981 !important;
+            color: white !important;
+            border-color: #10B981 !important;
         }
-        .word-tag.used {
-            background: #E30A17;
-            border-color: #E30A17;
+        .drill-btn.incorrect {
+            background-color: #EF4444 !important;
+            color: white !important;
+            border-color: #EF4444 !important;
+            opacity: 0.6;
+        }
+
+        /* Crime File Styles */
+        .case-file {
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .case-file:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Voting Buttons */
+        .vote-btn {
+            transition: all 0.2s;
+        }
+        .vote-btn.sus {
+            background-color: #f59e0b; /* Yellow-500 */
+            border-color: #d97706;
             color: white;
+        }
+        .vote-btn.ejected {
+            background-color: #dc2626; /* Red-600 */
+            border-color: #b91c1c;
+            color: white;
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        /* Secret Modal */
+        #role-modal {
+            backdrop-filter: blur(5px);
+        }
+
+        /* Game Logo Cards */
+        .game-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .game-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        /* Custom Scrollbar for tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Highlight Utility for Textbook Tab */
+        .highlight-word {
+            background-color: #fef08a; /* yellow-200 */
+            border-radius: 2px;
+            padding: 0 2px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .highlight-word:hover {
+            background-color: #fde047; /* yellow-300 */
+        }
+        .highlight-word.selected {
+            background-color: #86efac; /* green-300 */
             font-weight: bold;
         }
     </style>
 </head>
-<body class="min-h-screen pb-20">
+<body class="min-h-screen flex flex-col">
 
-    <!-- Navbar -->
-    <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto border-b border-white/5">
-        <div class="flex items-center gap-3">
-             <div class="w-3 h-3 rounded-full bg-brand-red animate-pulse"></div>
-             <div class="text-xl md:text-2xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-brand-red via-white to-brand-red">
-                MATCH DAY LIVE
-            </div>
-        </div>
-        <div class="text-xs md:text-sm font-bold bg-white/10 px-4 py-2 rounded-full border border-white/10 uppercase tracking-wide">
-            Life Skills Unit 4
-        </div>
-    </nav>
+    <div class="container mx-auto px-4 py-8 md:px-8 max-w-7xl flex-grow">
 
-    <!-- Hero Section -->
-    <header class="text-center mt-12 mb-16 px-4 relative overflow-hidden">
-        
-        <!-- Scoreboard / Matchup Display -->
-        <div class="flex justify-center items-center gap-6 md:gap-12 mb-8 animate-float">
-            <div class="text-center group">
-                <span class="flag-icon transform group-hover:scale-110 transition duration-300">🇹🇷</span>
-                <p class="font-black text-2xl mt-2 tracking-widest">TUR</p>
-            </div>
-            
-            <div class="vs-badge text-xl md:text-3xl text-brand-orange">VS</div>
-            
-            <div class="text-center group">
-                <span class="flag-icon transform group-hover:scale-110 transition duration-300">🇧🇷</span>
-                <p class="font-black text-2xl mt-2 tracking-widest text-brand-brazilYellow drop-shadow-sm">BRA</p>
-            </div>
-        </div>
+        <header class="text-center my-8 md:my-12">
+            <div class="inline-block p-2 px-4 bg-primary/10 text-primary rounded-full text-sm font-bold tracking-wide uppercase mb-4">Interactive Grammar</div>
+            <h1 class="text-5xl md:text-7xl font-black text-dark mb-4 leading-tight">The Reporter's <span class="text-primary">Toolkit</span></h1>
+            <p class="mt-4 text-xl text-gray-600 max-w-2xl mx-auto font-light">Master the art of Reported Speech using the dramatic conflict of "The War of the Currents" between Edison and Tesla.</p>
+        </header>
 
-        <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight drop-shadow-2xl">
-            <span class="block text-white mb-2">The Big Match.</span>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-orange">Inspire the Squad.</span>
-        </h1>
-        
-        <div class="max-w-2xl mx-auto glass-panel p-6 rounded-2xl border-l-4 border-brand-red">
-            <p class="text-lg md:text-xl text-gray-200">
-                <strong>Your Mission:</strong> You are the mental coach for the Turkish National Team. 
-                They are facing the football giants, Brazil, tonight. The pressure is immense. 
-                Record a <strong>30-45 second speech to post on your social media account</strong> using ONE strategy to keep the players and fans calm.
-            </p>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-12">
-        
-        <!-- LEFT COL: Strategy Selector -->
-        <div>
-            <div class="flex items-center gap-3 mb-6">
-                <span class="bg-brand-purple w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg shadow-brand-purple/50">1</span>
-                <h2 class="text-2xl font-bold uppercase tracking-wide">Choose Your Strategy</h2>
-            </div>
-            
-            <div class="grid grid-cols-1 gap-4" id="strategies-grid">
-                <!-- Strategy 1 -->
-                <button onclick="selectStrategy(1)" id="strat-1" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-16 h-16 bg-white/5 rounded-full blur-2xl transform translate-x-1/2 -translate-y-1/2 group-hover:bg-brand-red/20 transition"></div>
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">1. Practice, Practice</h3>
-                        <span class="text-2xl">🔁</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-1">
-                        Remind them of the training ground. They have practiced these shots a thousand times. The stadium is loud, but the goal is the same size. Muscle memory will take over.
-                    </p>
+        <!-- MAIN NAVIGATION TABS -->
+        <nav class="flex justify-center mb-12">
+            <div class="bg-white p-1 rounded-full shadow-lg border border-gray-100 flex overflow-hidden flex-wrap md:flex-nowrap">
+                <button onclick="switchMainTab('revision')" id="btn-revision" class="main-tab-btn rounded-full px-6 md:px-8 py-3 text-xs md:text-base font-bold transition-all duration-300 bg-dark text-white shadow-md flex-1 md:flex-none">
+                    📚 Revision Guide
                 </button>
-
-                <!-- Strategy 2 -->
-                <button onclick="selectStrategy(2)" id="strat-2" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">2. Focus on the Now</h3>
-                        <span class="text-2xl">🧘</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-2">
-                        Don't think about the final score. Don't think about Brazil's reputation or the World Cup trophy. Just focus on the next pass, the next tackle, this exact moment.
-                    </p>
+                <button onclick="switchMainTab('textbook')" id="btn-textbook" class="main-tab-btn rounded-full px-6 md:px-8 py-3 text-xs md:text-base font-bold text-gray-500 hover:text-gray-800 transition-all duration-300 flex-1 md:flex-none">
+                    📘 Textbook Warm-up
                 </button>
-
-                <!-- Strategy 3 -->
-                <button onclick="selectStrategy(3)" id="strat-3" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">3. Take Control</h3>
-                        <span class="text-2xl">🎮</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-3">
-                        We can't control the referee or the Brazilian fans screaming in the stands. We can only control our own effort and our own legs. Ignore the noise. Focus on us.
-                    </p>
+                <button onclick="switchMainTab('tools')" id="btn-tools" class="main-tab-btn rounded-full px-6 md:px-8 py-3 text-xs md:text-base font-bold text-gray-500 hover:text-gray-800 transition-all duration-300 flex-1 md:flex-none">
+                    🛠️ Practice Lab
                 </button>
-
-                <!-- Strategy 4 -->
-                <button onclick="selectStrategy(4)" id="strat-4" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">4. Rename Your Fear</h3>
-                        <span class="text-2xl">🦁</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-4">
-                        That shaking in your legs isn't fear. It's adrenaline! It's power! You aren't nervous; you are ready to explode into action! Use that energy to run faster.
-                    </p>
+                <button onclick="switchMainTab('crime')" id="btn-crime" class="main-tab-btn rounded-full px-6 md:px-8 py-3 text-xs md:text-base font-bold text-gray-500 hover:text-gray-800 transition-all duration-300 flex-1 md:flex-none">
+                    🕵️ Crime Roleplay
                 </button>
-
-                <!-- Strategy 5 -->
-                <button onclick="selectStrategy(5)" id="strat-5" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">5. Remember Success</h3>
-                        <span class="text-2xl">🏆</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-5">
-                        Remember 2002. Remember the Euro Cup comeback. Remember every time you won against the odds. Visualize the ball hitting the net before you even kick it.
-                    </p>
-                </button>
-
-                <!-- Strategy 6 -->
-                <button onclick="selectStrategy(6)" id="strat-6" class="strategy-card glass-panel p-6 rounded-2xl text-left w-full group relative overflow-hidden">
-                    <div class="flex justify-between items-start relative z-10">
-                        <h3 class="text-xl font-bold text-white group-hover:text-brand-pink transition">6. Second Chances</h3>
-                        <span class="text-2xl">🔄</span>
-                    </div>
-                    <p class="text-gray-300 text-sm mt-2 hidden font-medium" id="desc-6">
-                        Play with freedom. Even if we make a mistake, we keep playing. This is not the end of the world. It's a beautiful game. Enjoy the stage.
-                    </p>
+                <button onclick="switchMainTab('games')" id="btn-games" class="main-tab-btn rounded-full px-6 md:px-8 py-3 text-xs md:text-base font-bold text-gray-500 hover:text-gray-800 transition-all duration-300 flex-1 md:flex-none">
+                    🎮 Play & Review
                 </button>
             </div>
-        </div>
+        </nav>
 
-        <!-- RIGHT COL: Studio -->
-        <div class="relative">
-            <div class="sticky top-8 space-y-8">
+        <main>
+            <!-- ================= VIEW 1: REVISION GUIDE ================= -->
+            <div id="view-revision" class="main-view active space-y-12">
+                <!-- Video: Revision Guide Intro -->
+                <div class="w-full max-w-4xl mx-auto rounded-2xl overflow-hidden shadow-xl border border-gray-200 bg-black aspect-video">
+                    <iframe src="https://drive.google.com/file/d/11EP22pCSPTywUa9n1PuYlKU5hF5Fy2F5/preview" width="100%" height="100%" style="border:none;"></iframe>
+                </div>
+
+                <section id="reference-guide" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="bg-dark p-8 md:p-10 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white relative z-10">Master Reference Guide</h2>
+                        <p class="text-gray-300 mt-2 relative z-10 text-lg">The definitive rules for transforming direct speech.</p>
+                    </div>
+
+                    <!-- Sub-Tabs Navigation -->
+                    <div class="flex flex-wrap border-b border-gray-200 bg-gray-50/50">
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-dark border-b-4 border-primary bg-white transition-all duration-200" onclick="switchSubTab(this, 'tenses')">
+                            ⏳ Tenses & Modals
+                        </button>
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-100 transition-all duration-200" onclick="switchSubTab(this, 'time')">
+                            📍 Time & Place
+                        </button>
+                        <button class="sub-tab-btn flex-1 py-4 px-4 text-sm md:text-base font-bold text-gray-500 border-b-4 border-transparent hover:bg-gray-100 transition-all duration-200" onclick="switchSubTab(this, 'other')">
+                            👤 Imperatives & Others
+                        </button>
+                    </div>
+
+                    <!-- Sub-Tabs Content -->
+                    <div class="p-6 md:p-10">
+                        <div id="tenses" class="tab-content active space-y-8">
+                            <!-- (Existing Tenses Content) -->
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xl">1</div>
+                                <h3 class="text-2xl font-bold text-gray-800">The "One Step Back" Rule (Complete List)</h3>
+                            </div>
+                            <div class="overflow-x-auto custom-scrollbar rounded-xl border border-gray-200 shadow-sm">
+                                <table class="w-full text-left border-collapse bg-white">
+                                    <thead><tr class="bg-gray-50 border-b border-gray-200"><th class="p-5 font-bold text-gray-500 uppercase text-xs tracking-wider w-1/2">Direct Speech</th><th class="p-5 font-bold text-gray-500 uppercase text-xs tracking-wider w-1/2">Reported Speech</th></tr></thead>
+                                    <tbody class="divide-y divide-gray-100 text-sm md:text-base">
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Present Simple</span> <span class="text-xs text-gray-500 block font-mono mt-1">(S + V1/Vs)</span><br>"I <span class="font-bold">work</span> hard."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Simple</span> <span class="text-xs text-gray-500 block font-mono mt-1">(S + V2)</span><br>He said he <span class="font-bold">worked</span> hard.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Present Continuous</span> <span class="text-xs text-gray-500 block font-mono mt-1">(am/is/are + V-ing)</span><br>"I <span class="font-bold">am working</span>."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Continuous</span> <span class="text-xs text-gray-500 block font-mono mt-1">(was/were + V-ing)</span><br>He said he <span class="font-bold">was working</span>.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Present Perfect</span> <span class="text-xs text-gray-500 block font-mono mt-1">(have/has + V3)</span><br>"I <span class="font-bold">have finished</span>."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Perfect</span> <span class="text-xs text-gray-500 block font-mono mt-1">(had + V3)</span><br>He said he <span class="font-bold">had finished</span>.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Present Perfect Cont.</span> <span class="text-xs text-gray-500 block font-mono mt-1">(have/has been + V-ing)</span><br>"I <span class="font-bold">have been waiting</span>."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Perfect Cont.</span> <span class="text-xs text-gray-500 block font-mono mt-1">(had been + V-ing)</span><br>He said he <span class="font-bold">had been waiting</span>.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Past Simple</span> <span class="text-xs text-gray-500 block font-mono mt-1">(V2)</span><br>"I <span class="font-bold">bought</span> a car."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Perfect</span> <span class="text-xs text-gray-500 block font-mono mt-1">(had + V3)</span><br>He said he <span class="font-bold">had bought</span> a car.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Past Continuous</span> <span class="text-xs text-gray-500 block font-mono mt-1">(was/were + V-ing)</span><br>"I <span class="font-bold">was sleeping</span>."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Perfect Cont.</span> <span class="text-xs text-gray-500 block font-mono mt-1">(had been + V-ing)</span><br>He said he <span class="font-bold">had been sleeping</span>.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Past Perfect</span> <span class="text-xs text-gray-500 block font-mono mt-1">(had + V3)</span><br>"I <span class="font-bold">had done</span> it."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Past Perfect</span> <span class="text-xs text-gray-500 block font-mono mt-1">(No Change)</span><br>He said he <span class="font-bold">had done</span> it.</td>
+                                        </tr>
+                                        <tr class="hover:bg-blue-50/30 transition duration-150 group">
+                                            <td class="p-5 align-top"><span class="font-bold text-primary">Future (Will)</span> <span class="text-xs text-gray-500 block font-mono mt-1">(will + V1)</span><br>"I <span class="font-bold">will</span> call."</td>
+                                            <td class="p-5 align-top"><span class="font-bold text-dark">Conditional (Would)</span> <span class="text-xs text-gray-500 block font-mono mt-1">(would + V1)</span><br>He said he <span class="font-bold">would</span> call.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Modals -->
+                            <div class="mt-8">
+                                <h3 class="text-xl font-bold text-gray-800 mb-4">🔮 Modal Verbs Transformation</h3>
+                                <div class="overflow-x-auto custom-scrollbar rounded-xl border border-gray-200 shadow-sm">
+                                    <table class="w-full text-left border-collapse bg-white">
+                                        <tbody class="divide-y divide-gray-100 text-sm md:text-base">
+                                            <tr><td class="p-4 w-1/2">Will → Would</td><td class="p-4 w-1/2">Can → Could</td></tr>
+                                            <tr><td class="p-4">Must → Had to</td><td class="p-4">May → Might</td></tr>
+                                            <tr><td class="p-4">Shall → Should</td><td class="p-4">Should → No Change</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- Exception -->
+                            <div class="mt-8 bg-green-50 p-6 md:p-8 rounded-xl border-l-4 border-green-500">
+                                <h5 class="font-bold text-green-800 text-xl mb-2">Exception: Present Tense Reporting Verbs</h5>
+                                <p class="text-gray-700 mb-4">If the introductory word is <strong>says</strong> or <strong>tells</strong> (present tense), there is <strong>no change</strong> in the grammar tense. Note that <strong>tells</strong> is followed by an object (me, him, her).</p>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                        <p class="mb-0">"I <span class="font-bold text-primary">am</span> ready." → He <strong>tells</strong> me he <span class="font-bold text-green-600">is</span> ready.</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded-lg border border-green-100 shadow-sm">
+                                        <p class="mb-0">"I <span class="font-bold text-primary">love</span> this song." → She <strong>says</strong> she <span class="font-bold text-green-600">loves</span> this song.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="time" class="tab-content space-y-8">
+                            <!-- (Existing Time Content) -->
+                            <div class="bg-yellow-50 p-8 rounded-2xl border border-yellow-100">
+                                <h4 class="font-bold text-gray-800 text-xl mb-6">⏰ Time Expressions</h4>
+                                <ul class="space-y-2">
+                                    <li>Now → Then</li><li>Today → That day</li><li>Tomorrow → The next day</li><li>Yesterday → The day before</li>
+                                    <li>Tonight → That night</li><li>Next week → The following week</li><li>Last week → The previous week</li>
+                                    <li>Here → There</li><li>This → That</li><li>These → Those</li><li>Ago → Before</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="other" class="tab-content space-y-8">
+                            <!-- (Existing Other Content) -->
+                            <!-- Questions -->
+                            <h4 class="font-bold text-lg mb-4 text-gray-700">❓ Reporting Questions</h4>
+                            <div class="space-y-4 mb-8">
+                                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                    <p class="font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">Yes/No Questions</p>
+                                    <p class="mb-2 text-sm">Use <strong>if</strong> or <strong>whether</strong>.</p>
+                                    <div class="space-y-2">
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "Do you like coffee?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Pres. Simple</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">if</span> I liked coffee.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "Have you seen the report?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Pres. Perfect</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> She asked <span class="bg-yellow-100 px-1">if</span> I had seen the report.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "Will you come tomorrow?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Future</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">whether</span> I would go the next day.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "Did you finish the task?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Past Simple</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> They asked <span class="bg-yellow-100 px-1">if</span> I had finished the task.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gray-50 p-5 rounded-xl border border-gray-200">
+                                    <p class="font-bold text-xs text-gray-500 uppercase tracking-wider mb-2">Wh- Questions (What, Where...)</p>
+                                    <p class="mb-2 text-sm">Keep the question word.</p>
+                                    <div class="space-y-2">
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "Where do you live?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Pres. Simple</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">where</span> I lived.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "What are you doing?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Pres. Cont.</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> She asked <span class="bg-yellow-100 px-1">what</span> I was doing.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "When did they leave?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Past Simple</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> He asked <span class="bg-yellow-100 px-1">when</span> they had left.</p>
+                                        </div>
+                                        <div class="text-sm bg-white p-2 rounded border border-gray-100">
+                                            <p><span class="text-gray-400">Direct:</span> "How will we fix this?" <span class="text-[10px] text-gray-400 border border-gray-200 rounded px-1 ml-1 uppercase">Future</span></p>
+                                            <p><span class="text-blue-600 font-bold">Reported:</span> They asked <span class="bg-yellow-100 px-1">how</span> we would fix that.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Imperatives -->
+                            <div class="bg-orange-50 p-6 rounded-xl border-l-4 border-orange-500">
+                                <h4 class="font-bold text-orange-900 text-lg mb-4">☝️ Orders & Requests (Imperatives)</h4>
+                                <p class="text-gray-700 mb-4 text-sm">Change the imperative verb into an <strong>Infinitive</strong> (to + verb).</p>
+                                <div class="space-y-3">
+                                    <div class="bg-white p-3 rounded shadow-sm border border-orange-100">
+                                        <p class="text-xs text-gray-400 font-bold uppercase mb-1">Positive</p>
+                                        <p class="text-sm">"Sit down." ➜ He told me <strong>to sit</strong> down.</p>
+                                    </div>
+                                    <div class="bg-white p-3 rounded shadow-sm border border-orange-100">
+                                        <p class="text-xs text-gray-400 font-bold uppercase mb-1">Negative</p>
+                                        <p class="text-sm">"Don't wait." ➜ He asked me <strong>not to wait</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= VIEW 0: TEXTBOOK WARM-UP (NEW) ================= -->
+            <div id="view-textbook" class="main-view space-y-12">
                 
-                <!-- Script Pad -->
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="bg-brand-pink w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg shadow-brand-pink/50">2</span>
-                        <h2 class="text-2xl font-bold uppercase tracking-wide">Draft Your Script</h2>
+                <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="bg-blue-600 p-8 text-center">
+                        <h2 class="text-3xl font-bold text-white mb-2">The War of the Currents</h2>
+                        <p class="text-blue-100">Based on Student Book Pages 40-41</p>
                     </div>
                     
-                    <div class="glass-panel p-6 rounded-2xl bg-gradient-to-br from-white/5 to-transparent">
-                        
-                        <!-- WORD BANK -->
-                        <div class="mb-6 p-4 bg-black/40 rounded-xl border border-gray-700">
-                            <p class="text-xs font-bold text-brand-orange uppercase tracking-wider mb-3">
-                                ⚡ Power Words (Must use 4+)
-                            </p>
-                            <p class="text-xs text-gray-500 mb-2">Click to mark as used:</p>
-                            <div class="flex flex-wrap gap-2" id="word-bank">
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">under pressure</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">not let your nerves get the best of you</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">block out</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">rise to a challenge</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">confidence</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">tournament</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">underperform</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">anxiety</span>
-                                <span class="word-tag px-3 py-1 bg-white/10 rounded-full text-xs" onclick="this.classList.toggle('used')">cope</span>
+                    <div class="p-8 md:p-12">
+                        <div class="grid md:grid-cols-2 gap-12">
+                            <!-- Text Column -->
+                            <div class="space-y-6 font-serif text-lg leading-relaxed text-gray-700">
+                                <h3 class="font-bold text-2xl mb-4 text-dark font-sans border-b-2 border-primary inline-block">1. Read & Discover</h3>
+                                
+                                <div class="w-full aspect-[4/3] rounded-lg overflow-hidden mb-6 shadow-md border border-gray-200 bg-gray-100 flex items-center justify-center">
+                                    <!-- Use the specific Google Drive image ID provided -->
+                                    <iframe src="https://drive.google.com/file/d/10WIoYzniJic2zzVx59v7KbkGTLvrs8wU/preview" width="100%" height="100%" style="border:none;"></iframe>
+                                </div>
+                                
+                                <div class="bg-yellow-50 p-4 rounded-lg border-l-4 border-yellow-400 text-sm font-sans mt-4">
+                                    <strong>💡 Instructions:</strong> Turn to <strong>Page 40</strong> in your book. Study the text and notice how <em>Reporting Verbs</em> (in bold) are used to report what people said without using quote marks.
+                                </div>
+                            </div>
+
+                            <!-- Exercises Column -->
+                            <div class="space-y-8">
+                                
+                                <!-- Grammar Spot (Exercise 3 from Book) -->
+                                <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-200">
+                                    <h3 class="font-bold text-xl mb-4 text-indigo-900 flex items-center gap-2">
+                                        <span class="bg-indigo-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">3</span>
+                                        Grammar Spot (Reporting Verbs)
+                                    </h3>
+                                    <p class="text-sm text-indigo-800 mb-4 font-bold">Study the reporting verbs highlighted in the article. When and how are they used? What do you think the speakers' original words were?</p>
+                                    
+                                    <div class="space-y-4">
+                                        <!-- No interactive dropdown needed here as per instructions "transcribed exactly", 
+                                             but let's keep it somewhat interactive or just list them as reflection points -->
+                                        <ul class="list-disc list-inside text-sm text-indigo-700 space-y-2">
+                                            <li><strong>persuaded... to work</strong></li>
+                                            <li><strong>mentioned paying...</strong></li>
+                                            <li><strong>asked to be paid</strong></li>
+                                            <li><strong>claimed that...</strong></li>
+                                            <li><strong>told him that...</strong></li>
+                                            <li><strong>announced that...</strong></li>
+                                            <li><strong>advised... to continue</strong></li>
+                                            <li><strong>wonder whether...</strong></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Practice (Exercise 4 from Book) -->
+                                <div class="bg-orange-50 p-6 rounded-xl border border-orange-200">
+                                    <h3 class="font-bold text-xl mb-2 text-orange-900 flex items-center gap-2">
+                                        <span class="bg-orange-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm">4</span>
+                                        Practice
+                                    </h3>
+                                    <p class="text-sm text-orange-800 mb-4">Report the following imaginary statements, starting with the words given.</p>
+                                    
+                                    <div class="space-y-4">
+                                        <!-- 1 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">1. "I've opened a new power station."</p>
+                                            <p class="font-bold text-dark mb-1">Edison mentioned...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="opening a new power station">
+                                        </div>
+                                        
+                                        <!-- 2 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">2. "You should try using light bulbs, everyone." "OK, Mr. Edison."</p>
+                                            <p class="font-bold text-dark mb-1">Edison persuaded...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="everyone to try using light bulbs">
+                                        </div>
+
+                                        <!-- 3 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">3. "You've worked so hard this month, Tesla!"</p>
+                                            <p class="font-bold text-dark mb-1">Tesla's co-workers praised...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="Tesla for working so hard">
+                                        </div>
+
+                                        <!-- 4 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">4. "No, I won't pay you $50,000, Tesla."</p>
+                                            <p class="font-bold text-dark mb-1">Tesla's manager refused...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="to pay Tesla $50,000">
+                                        </div>
+
+                                        <!-- 5 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">5. "You shouldn't listen to Edison's warnings, everyone."</p>
+                                            <p class="font-bold text-dark mb-1">Tesla advised...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="everyone not to listen to Edison's warnings">
+                                        </div>
+
+                                        <!-- 6 -->
+                                        <div class="bg-white p-3 rounded border border-orange-100 text-sm">
+                                            <p class="italic text-gray-500 mb-1">6. "Could you please give me your views on Mr. Edison's achievements, Mr. Tesla?"</p>
+                                            <p class="font-bold text-dark mb-1">The newspaper reporter asked...</p>
+                                            <input type="text" class="w-full p-2 border border-gray-300 rounded focus:border-orange-500 focus:outline-none" placeholder="Tesla to give his views on...">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-100 p-4 text-center border-t border-gray-200">
+                        <button onclick="switchMainTab('tools')" class="text-blue-600 font-bold hover:underline">Finished? Go to the Practice Lab ➜</button>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- ================= VIEW 2: REPORTING TOOLS ================= -->
+            <div id="view-tools" class="main-view space-y-16">
+                <!-- (Existing Tools Content Preserved) -->
+                <section id="reporting-verbs">
+                    <!-- Video: Reporting Verbs Intro -->
+                    <div class="w-full max-w-4xl mx-auto mb-10 rounded-2xl overflow-hidden shadow-xl border border-gray-200 bg-black aspect-video">
+                        <iframe src="https://drive.google.com/file/d/177Kow9PD7v_Ugpuacl4LWAu0oMvbuxWk/preview" width="100%" height="100%" style="border:none;"></iframe>
+                    </div>
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-dark mb-4">The Reporter's Dictionary</h2>
+                    </div>
+                    <div id="verb-groups-container" class="space-y-12"></div>
+                </section>
+                <section id="verb-detective">
+                    <div class="text-center mb-10"><h2 class="text-3xl font-bold text-dark mb-4">Verb Detective 🕵️</h2></div>
+                    <div id="detective-container" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto"></div>
+                </section>
+                <section id="training-camp">
+                    <div class="text-center mb-10"><h2 class="text-3xl font-bold text-dark mb-4">Reporter's Training Camp 🏋️</h2></div>
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                            <h3 class="text-xl font-bold mb-4">📝 Drill 1: The Pattern Master</h3>
+                            <div id="quiz-container" class="space-y-6"></div>
+                            <button onclick="loadNewQuizQuestion()" class="mt-6 w-full py-2 bg-indigo-50 text-indigo-600 font-bold rounded-lg hover:bg-indigo-100 transition">Next Question ➜</button>
+                        </div>
+                        <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                            <h3 class="text-xl font-bold mb-4">🧩 Drill 2: The Preposition Puzzle</h3>
+                            <div id="prep-drill-container" class="text-center space-y-4">
+                                <div id="prep-question" class="text-3xl font-bold text-dark py-4"></div>
+                                <div class="grid grid-cols-2 gap-3 w-full" id="prep-options"></div>
+                                <div id="prep-feedback" class="h-6 text-sm font-bold"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="practice-zone">
+                    <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-dark/10">
+                        <div class="bg-dark p-8 text-center"><h2 class="text-3xl font-bold text-white mb-2">The Reporting Simulator 🤖</h2></div>
+                        <div class="p-8">
+                            <div class="text-center mb-8"><button id="generate-scenario-btn" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg">🎲 Generate Scenario</button></div>
+                            <div id="scenario-box" class="max-w-3xl mx-auto bg-gray-50 rounded-2xl p-6 hidden">
+                                <p id="scenario-text" class="text-lg font-medium"></p>
+                                <p id="direct-quote-text" class="font-serif text-xl italic my-4"></p>
+                                <textarea id="user-input" class="w-full p-4 border rounded-xl" rows="3"></textarea>
+                                <button id="check-sentence-btn" class="mt-4 w-full bg-dark text-white font-bold py-3 px-6 rounded-xl">✨ Get Feedback</button>
+                                <div id="feedback-box" class="mt-6 hidden bg-blue-50 p-6 rounded-xl"><div id="feedback-loader" class="loader hidden"></div><p id="feedback-text"></p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ================= VIEW 3: CRIME ROLEPLAY (UPDATED) ================= -->
+            <div id="view-crime" class="main-view space-y-16">
+                
+                <!-- Hero Section -->
+                <div class="bg-police text-white rounded-2xl shadow-2xl overflow-hidden bg-jail-bars relative">
+                    <div class="absolute inset-0 bg-black/60"></div>
+                    <div class="relative z-10 p-10 md:p-16 text-center">
+                        <div class="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 animate-pulse">Emergency Investigation</div>
+                        <h2 class="text-4xl md:text-6xl font-black font-serif mb-6">The Snitch's Twist 🕵️‍♂️</h2>
+                        <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                            A bank robbery happened at 10:00 PM. Most of you have a solid alibi, but one person is the <strong>Real Criminal</strong>. They are lying. Your job is to report everyone's story to your partner and find the person whose story doesn't match the evidence!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Training Module: Interrogation Sample (NEW) -->
+                <section class="max-w-5xl mx-auto bg-gray-50 border-l-8 border-police p-8 rounded-r-xl shadow-md">
+                    <h3 class="text-2xl font-bold text-dark mb-6">🎓 Training Module: How to Interrogate</h3>
+                    <p class="text-gray-600 mb-6">Don't just say "He said." Use the right verbs to catch the liar!</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Dialogue Step 1 -->
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">A</div>
+                            <div class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm border border-gray-200 flex-1">
+                                <p class="text-sm font-bold text-blue-500 mb-1">Detective A</p>
+                                <p>I spoke to Role 1. He said: <em>"I really think you should tell the police everything."</em></p>
                             </div>
                         </div>
 
-                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Opening Hook</label>
-                        <textarea class="w-full bg-black/30 border border-gray-600 rounded-lg p-3 text-white focus:border-brand-pink focus:outline-none mb-4 resize-none placeholder-gray-500" rows="2" placeholder="e.g., 'Brothers! Tonight the whole world is watching us...'"></textarea>
-                        
-                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">The Strategy</label>
-                        <textarea class="w-full bg-black/30 border border-gray-600 rounded-lg p-3 text-white focus:border-brand-pink focus:outline-none mb-4 resize-none placeholder-gray-500" rows="4" placeholder="Explain the strategy. Use words from the Power Words bank above."></textarea>
-                        
-                        <label class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 block">Call to Action</label>
-                        <input type="text" class="w-full bg-black/30 border border-gray-600 rounded-lg p-3 text-white focus:border-brand-pink focus:outline-none placeholder-gray-500" placeholder="e.g., 'Let's make history! Haydi Türkiye!'">
-                    </div>
-                </div>
-
-                <!-- Confidence Boosters (Page 43) -->
-                <div class="glass-panel p-6 rounded-2xl border-l-4 border-brand-orange bg-brand-orange/5">
-                    <h3 class="font-bold text-lg mb-3 flex items-center gap-2">🌟 Speaking Confidently <span class="text-xs font-normal opacity-70">(Page 43 Checklist)</span></h3>
-                    <ul class="space-y-2 text-sm text-gray-300">
-                        <li class="flex items-center gap-2"><input type="checkbox" class="accent-brand-orange w-4 h-4 cursor-pointer"> <span><strong>Eye Contact:</strong> Look at the players (camera), not the floor!</span></li>
-                        <li class="flex items-center gap-2"><input type="checkbox" class="accent-brand-orange w-4 h-4 cursor-pointer"> <span><strong>Speed:</strong> Speak slowly and powerfully. Don't rush.</span></li>
-                        <li class="flex items-center gap-2"><input type="checkbox" class="accent-brand-orange w-4 h-4 cursor-pointer"> <span><strong>Passion:</strong> Believe in what you say! Show your energy.</span></li>
-                    </ul>
-                </div>
-
-                <!-- Rehearsal Timer -->
-                <div>
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="bg-brand-orange w-8 h-8 rounded-full flex items-center justify-center font-bold shadow-lg shadow-brand-orange/50">3</span>
-                        <h2 class="text-2xl font-bold uppercase tracking-wide">Rehearse</h2>
-                    </div>
-                    
-                    <div class="glass-panel p-8 rounded-2xl text-center relative overflow-hidden">
-                        <!-- Background pulse effect -->
-                        <div class="absolute top-1/2 left-1/2 w-40 h-40 bg-brand-red/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-                        
-                        <div id="timer-display" class="text-6xl font-black font-mono mb-6 text-white relative z-10">00:45</div>
-                        
-                        <div class="flex justify-center gap-4 relative z-10">
-                            <button onclick="startTimer()" id="start-btn" class="bg-white text-brand-dark font-bold px-8 py-3 rounded-full hover:bg-gray-200 transition transform hover:scale-105 shadow-lg flex items-center gap-2">
-                                <span>▶</span> Start
-                            </button>
-                            <button onclick="resetTimer()" class="bg-white/10 text-white font-bold px-6 py-3 rounded-full hover:bg-white/20 transition flex items-center gap-2">
-                                <span>↺</span> Reset
-                            </button>
+                        <!-- Dialogue Step 2 -->
+                        <div class="flex gap-4 flex-row-reverse">
+                            <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">B</div>
+                            <div class="bg-white p-4 rounded-xl rounded-tr-none shadow-sm border border-gray-200 flex-1 text-right">
+                                <p class="text-sm font-bold text-green-600 mb-1">Detective B</p>
+                                <p>Aha! So he <span class="font-bold text-dark bg-yellow-100 px-1">persuaded</span> us to confess!</p>
+                            </div>
                         </div>
-                        <div id="recording-status" class="mt-4 text-red-500 font-bold uppercase tracking-widest text-xs opacity-0 transition-opacity duration-300">
-                            🔴 Recording Live • On Air
+
+                        <!-- Dialogue Step 3 -->
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">A</div>
+                            <div class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm border border-gray-200 flex-1">
+                                <p class="text-sm font-bold text-blue-500 mb-1">Detective A</p>
+                                <p>Exactly. But Role 3 said: <em>"If you talk, I'll kill you!"</em> He <span class="font-bold text-dark bg-yellow-100 px-1">threatened</span> to kill anyone who spoke.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- New Verb List -->
+                    <div class="mt-8 border-t-2 border-gray-200 pt-6">
+                        <h4 class="font-bold text-dark mb-4 uppercase tracking-wide text-sm flex items-center gap-2">
+                            <span>🔍</span> Essential Verbs for Detectives
+                        </h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Persuaded</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Blamed</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Threatened</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Suggested</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Warned</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Reassured</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Denied</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Offered</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Announced</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Ordered</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Insisted</span>
+                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Congratulated</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mission Briefing with Twist -->
+                <section class="max-w-5xl mx-auto">
+                    <!-- Teacher's Note for Class Size -->
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r shadow-sm">
+                        <div class="flex items-start gap-3">
+                            <span class="text-2xl">👨‍🏫</span>
+                            <div>
+                                <h4 class="font-bold text-blue-900 text-sm uppercase tracking-wide">Classroom Setup Guide</h4>
+                                <p class="text-blue-800 text-sm mt-1">
+                                    <strong>Recommended:</strong> Use the <span class="font-bold underline">Printable Role Cards</span>. Hand one card to each student.
+                                </p>
+                                <p class="text-blue-800 text-sm mt-2">
+                                    If playing digitally: Assign each student a number (1-12). They must ONLY click their assigned folder.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-primary">
+                            <h3 class="font-bold text-dark mb-2">1. The Mingle</h3>
+                            <p class="text-sm text-gray-600">Walk around. Use the <strong>Direct Speech</strong> phrase on your card to talk to everyone.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-yellow-500">
+                            <h3 class="font-bold text-dark mb-2">2. The Evidence</h3>
+                            <p class="text-sm text-gray-600"><strong>STOP!</strong> Reveal the Police Evidence below. Read the facts carefully.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-emergency">
+                            <h3 class="font-bold text-emergency mb-2">3. The Meeting</h3>
+                            <p class="text-sm text-gray-600">Sit with a partner. Report what people said using the <strong>reporting verbs</strong>. <em>"Role 4 suggested that..."</em></p>
+                        </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-secondary">
+                            <h3 class="font-bold text-dark mb-2">4. The Vote</h3>
+                            <p class="text-sm text-gray-600">Decide who is innocent based on the evidence and their statements.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Secret Evidence File (Moved UP for Phase 2) -->
+                <section class="max-w-4xl mx-auto mt-16 mb-10">
+                    <button onclick="document.getElementById('evidence-content').classList.toggle('hidden')" class="w-full bg-gray-900 text-white font-mono text-xl py-6 rounded-2xl border-4 border-dashed border-gray-700 hover:bg-black transition flex items-center justify-center gap-4 group">
+                        <span class="text-4xl group-hover:scale-110 transition">📂</span>
+                        <span>CLICK TO OPEN POLICE EVIDENCE (Phase 2)</span>
+                    </button>
+                    <div id="evidence-content" class="hidden mt-6 bg-black/90 p-8 rounded-2xl border border-gray-800 text-green-500 font-mono text-lg space-y-4 shadow-2xl">
+                        <h4 class="text-white border-b border-gray-700 pb-2 mb-4">EVIDENCE REPORT #9921</h4>
+                        <p>> FACT 1: DNA samples confirm 11 suspects were at the bank.</p>
+                        <p>> FACT 2: One person was DEFINITELY just a passer-by.</p>
+                        <p class="pt-6 text-gray-400 italic">// INSTRUCTION: Find the suspect who claimed they were "just walking past". That is the Innocent Person.</p>
+                    </div>
+                </section>
+
+                <!-- Suspect Files List (Spoiler-Proof) -->
+                <section class="max-w-6xl mx-auto">
+                    <h3 class="text-3xl font-bold text-center text-dark mb-10">Confidential Case Files</h3>
+                    <p class="text-center text-gray-500 mb-8">Click ONLY your assigned number.</p>
+                    <div id="suspects-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        <!-- Generic File Buttons injected via JS -->
+                    </div>
+                </section>
+
+                <!-- EMERGENCY MEETING / VOTING BOARD -->
+                <section class="max-w-5xl mx-auto bg-gray-900 rounded-3xl p-8 border-4 border-emergency shadow-2xl relative overflow-hidden mt-16">
+                    <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between border-b border-gray-700 pb-6 mb-8">
+                            <h2 class="text-3xl md:text-4xl font-black text-white uppercase tracking-widest font-mono">🚨 Emergency Meeting</h2>
+                            <div class="bg-red-600 text-white px-4 py-2 rounded font-bold animate-pulse">VOTING IN PROGRESS</div>
+                        </div>
+
+                        <p class="text-gray-400 mb-6 text-center">Click a suspect to toggle status: <span class="text-white">Normal</span> ➜ <span class="text-yellow-500">Suspicious</span> ➜ <span class="text-red-500 line-through">Ejected</span></p>
+
+                        <div id="voting-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                            <!-- Voting Buttons injected by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Role Modal -->
+                <div id="role-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/80">
+                    <div class="bg-white rounded-2xl max-w-md w-full mx-4 overflow-hidden shadow-2xl transform transition-all scale-100">
+                        <div class="bg-police p-6 text-white flex justify-between items-center">
+                            <h3 class="text-xl font-mono font-bold tracking-widest uppercase">Top Secret</h3>
+                            <button onclick="closeRoleModal()" class="text-white hover:text-red-300 text-2xl">&times;</button>
+                        </div>
+                        <div class="p-8 text-center" id="modal-content">
+                            <!-- Injected Content -->
+                        </div>
+                        <div class="bg-gray-100 p-4 text-center">
+                            <button onclick="closeRoleModal()" class="bg-gray-800 text-white px-6 py-2 rounded-lg font-bold hover:bg-black transition">Close File</button>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </div>
 
-    </main>
+            <!-- ================= VIEW 4: PLAY & REVIEW (NEW) ================= -->
+            <div id="view-games" class="main-view space-y-16">
+                
+                <section class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+                    <div class="bg-dark p-8 md:p-10 text-center relative overflow-hidden">
+                        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+                        <h2 class="text-3xl md:text-4xl font-bold text-white relative z-10 font-game tracking-widest">GAME ZONE</h2>
+                        <p class="text-gray-300 mt-2 relative z-10 text-lg">Challenge your friends and master Reported Speech!</p>
+                    </div>
+
+                    <div class="p-12 md:p-20">
+                        <div class="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                            
+                            <!-- Blooket Card (Standard) -->
+                            <a href="https://dashboard.blooket.com/set/64c1cf71bf8790956346f9cb" target="_blank" class="game-card block bg-white rounded-3xl overflow-hidden shadow-xl border-4 border-transparent hover:border-blooket transition group">
+                                <div class="bg-blooket h-40 flex items-center justify-center relative overflow-hidden">
+                                    <div class="text-white font-black text-4xl font-game tracking-wider drop-shadow-md group-hover:scale-110 transition duration-300">
+                                        Blooket
+                                    </div>
+                                    <div class="absolute top-4 left-4 w-8 h-8 bg-white/20 rounded-md rotate-12"></div>
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h3 class="text-xl font-bold text-dark mb-2">Standard Review</h3>
+                                    <p class="text-gray-500 text-sm mb-4">Fast-paced grammar games.</p>
+                                    <span class="inline-block bg-blooket text-white font-bold py-2 px-6 rounded-full text-sm shadow-md group-hover:shadow-blooket/50 transition">
+                                        PLAY ▶
+                                    </span>
+                                </div>
+                            </a>
+
+                            <!-- Baamboozle Card (Standard) -->
+                            <a href="https://www.baamboozle.com/game/48871" target="_blank" class="game-card block bg-white rounded-3xl overflow-hidden shadow-xl border-4 border-transparent hover:border-baamboozle transition group">
+                                <div class="bg-baamboozle h-40 flex items-center justify-center relative overflow-hidden">
+                                    <div class="text-white font-black text-4xl font-sans tracking-tight drop-shadow-md group-hover:scale-110 transition duration-300">
+                                        Baamboozle
+                                    </div>
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h3 class="text-xl font-bold text-dark mb-2">Team Battle</h3>
+                                    <p class="text-gray-500 text-sm mb-4">Standard team trivia.</p>
+                                    <span class="inline-block bg-baamboozle text-white font-bold py-2 px-6 rounded-full text-sm shadow-md group-hover:shadow-baamboozle/50 transition">
+                                        PLAY ▶
+                                    </span>
+                                </div>
+                            </a>
+
+                            <!-- Baamboozle Card (Expert) -->
+                            <a href="https://www.baamboozle.com/game/1591888" target="_blank" class="game-card block bg-white rounded-3xl overflow-hidden shadow-xl border-4 border-transparent hover:border-gold transition group relative">
+                                <div class="absolute top-3 right-3 bg-gold text-white text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider shadow-md z-10 animate-pulse-slow">
+                                    🔥 Expert
+                                </div>
+                                <div class="bg-gray-800 h-40 flex items-center justify-center relative overflow-hidden">
+                                    <div class="text-gold font-black text-4xl font-sans tracking-tight drop-shadow-md group-hover:scale-110 transition duration-300">
+                                        Hard Mode
+                                    </div>
+                                </div>
+                                <div class="p-6 text-center">
+                                    <h3 class="text-xl font-bold text-dark mb-2">Extra Challenge</h3>
+                                    <p class="text-gray-500 text-sm mb-4">Advanced questions only!</p>
+                                    <span class="inline-block bg-gold text-white font-bold py-2 px-6 rounded-full text-sm shadow-md group-hover:shadow-gold/50 transition">
+                                        PLAY ▶
+                                    </span>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </main>
+        
+        <footer class="mt-auto py-12 text-center text-gray-400 text-sm">
+            <p>© 2025 The Reporter's Toolkit. Built with Tailwind & Gemini.</p>
+        </footer>
+
+    </div>
 
     <script>
-        // Strategy Selection Logic
-        function selectStrategy(id) {
-            // Reset all
-            document.querySelectorAll('.strategy-card').forEach(card => {
-                card.classList.remove('selected-card');
-                card.querySelector('p').classList.add('hidden');
+        // --- API Configuration ---
+        const apiKey = ""; 
+        
+        // --- Tab Logic ---
+        function switchMainTab(viewName) {
+            document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.main-tab-btn').forEach(el => {
+                el.classList.remove('bg-dark', 'text-white', 'shadow-md');
+                el.classList.add('text-gray-500');
+            });
+            document.getElementById('view-' + viewName).classList.add('active');
+            const activeBtn = document.getElementById('btn-' + viewName);
+            activeBtn.classList.remove('text-gray-500');
+            activeBtn.classList.add('bg-dark', 'text-white', 'shadow-md');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function switchSubTab(btn, tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.sub-tab-btn').forEach(el => {
+                el.classList.remove('text-dark', 'border-primary', 'bg-white');
+                el.classList.add('text-gray-500', 'border-transparent');
+            });
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.remove('text-gray-500', 'border-transparent');
+            btn.classList.add('text-dark', 'border-primary', 'bg-white');
+        }
+
+        // --- Helper for Textbook Quiz ---
+        function checkTextbookAns(btn, isCorrect) {
+            const parent = btn.parentElement;
+            Array.from(parent.children).forEach(c => {
+                c.classList.remove('bg-green-100', 'border-green-500', 'text-green-700', 'bg-red-100', 'border-red-500', 'text-red-700');
+                c.classList.add('bg-white', 'border-gray-300');
             });
 
-            // Activate specific
-            const card = document.getElementById(`strat-${id}`);
-            const desc = document.getElementById(`desc-${id}`);
-            
-            card.classList.add('selected-card');
-            desc.classList.remove('hidden');
+            if (isCorrect) {
+                btn.classList.remove('bg-white', 'border-gray-300');
+                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700');
+                btn.innerHTML += ' ✅';
+            } else {
+                btn.classList.remove('bg-white', 'border-gray-300');
+                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-700');
+                btn.innerHTML += ' ❌';
+            }
         }
 
-        // Timer Logic
-        let timer;
-        let timeLeft = 45;
-        let isRunning = false;
+        // --- Data: Reporting Verbs Groups (Preserved) ---
+        const reportingVerbGroups = {
+            "Verb + Infinitive": [
+                { verb: 'agree', func: 'Agreeing', pattern: 'Verb + to + infinitive', rules: { pattern: 'Verb + to + Infinitive', example: 'Tesla **agreed to share** his patents.', thatExample: 'Tesla **agreed that** he would share his patents.' } },
+                { verb: 'promise', func: 'Promising', pattern: 'Verb + to + infinitive', rules: { pattern: 'Verb + to + Infinitive', example: 'Westinghouse **promised to pay** the royalties.', thatExample: 'He **promised that** he would pay the royalties.' } },
+                { verb: 'threaten', func: 'Threatening', pattern: 'Verb + to + infinitive', rules: { pattern: 'Verb + to + Infinitive', example: 'Edison **threatened to discredit** AC power.', thatExample: 'He **threatened that** he would discredit AC power.' } },
+                { verb: 'refuse', func: 'Refusing', pattern: 'Verb + to + infinitive', rules: { pattern: 'Verb + to + Infinitive', example: 'Tesla **refused to accept** the Nobel Prize.', thatExample: 'He stated **that** he refused to accept it.' } }
+            ],
+            "Verb + Object + Infinitive": [
+                { verb: 'advise', func: 'Advising', pattern: 'Verb + Object + to + infinitive', rules: { pattern: 'Verb + Obj + to + Inf', example: 'They **advised Tesla to ignore** the attacks.', thatExample: 'They **advised that** Tesla should ignore the attacks.' } },
+                { verb: 'remind', func: 'Reminding', pattern: 'Verb + Object + to + infinitive', rules: { pattern: 'Verb + Obj + to + Inf', example: 'His assistant **reminded him to attend** the meeting.', thatExample: 'He **reminded him that** he needed to attend.' } },
+                { verb: 'warn', func: 'Warning', pattern: 'Verb + Object + to + infinitive', rules: { pattern: 'Verb + Obj + to + Inf', example: 'Edison **warned the public to avoid** AC wires.', thatExample: 'Edison **warned that** AC wires were dangerous.' } },
+                { verb: 'encourage', func: 'Encouraging', pattern: 'Verb + Object + to + infinitive', rules: { pattern: 'Verb + Obj + to + Inf', example: 'Investors **encouraged him to continue** his work.', thatExample: 'They **encouraged the idea that** he continue.' } }
+            ],
+            "Verb + Gerund (-ing)": [
+                { verb: 'admit', func: 'Admitting', pattern: 'Verb + -ing', rules: { pattern: 'Verb + -ing', example: 'The company **admitted losing** the contract.', thatExample: 'The company **admitted that** they lost the contract.' } },
+                { verb: 'deny', func: 'Denying', pattern: 'Verb + -ing', rules: { pattern: 'Verb + -ing', example: 'Edison **denied misleading** the public.', thatExample: 'Edison **denied that** he misled the public.' } },
+                { verb: 'suggest', func: 'Suggesting', pattern: 'Verb + -ing', rules: { pattern: 'Verb + -ing', example: 'Tesla **suggested using** waterfalls for power.', thatExample: 'Tesla **suggested that** they use waterfalls.' } },
+                { verb: 'recommend', func: 'Recommending', pattern: 'Verb + -ing', rules: { pattern: 'Verb + -ing', example: 'Experts **recommended switching** to AC.', thatExample: 'Experts **recommended that** they switch to AC.' } },
+                { verb: 'regret', func: 'Regretting', pattern: 'Verb + -ing', rules: { pattern: 'Verb + -ing', example: 'He **regretted selling** his patents so early.', thatExample: 'He **regretted that** he sold his patents.' } }
+            ],
+            "Verb + Preposition": [
+                { verb: 'apologize', func: 'Apologizing', pattern: 'Apologize + for + -ing', rules: { pattern: 'Verb + for + -ing', example: 'He **apologized for being** late.', thatExample: 'He **said he was sorry that** he was late.' } },
+                { verb: 'insist', func: 'Insisting', pattern: 'Insist + on + -ing', rules: { pattern: 'Verb + on + -ing', example: 'Tesla **insisted on testing** the motor again.', thatExample: 'Tesla **insisted that** he test the motor again.' } }
+            ]
+        };
 
-        function startTimer() {
-            if (isRunning) return;
-            
-            isRunning = true;
-            document.getElementById('start-btn').disabled = true;
-            document.getElementById('start-btn').classList.add('opacity-50', 'cursor-not-allowed');
-            document.getElementById('recording-status').classList.remove('opacity-0');
-            document.getElementById('recording-status').classList.add('animate-pulse');
+        const allVerbs = Object.values(reportingVerbGroups).flat();
+        
+        // --- Verb Detective Data ---
+        const verbDetectiveData = [
+            { quote: "Okay, I will share the patent with you.", intention: "Agreeing", verb: "agreed", reported: "He **agreed** to share the patent." },
+            { quote: "I give you my word, I will pay the full amount.", intention: "Promising", verb: "promised", reported: "He **promised** to pay the full amount." },
+            { quote: "If you don't stop, I will destroy your reputation!", intention: "Threatening", verb: "threatened", reported: "He **threatened** to destroy his reputation." },
+            { quote: "No! I absolutely will not accept the prize.", intention: "Refusing", verb: "refused", reported: "He **refused** to accept the prize." },
+            { quote: "You really should ignore those attacks, Tesla.", intention: "Advising", verb: "advised", reported: "He **advised** Tesla to ignore the attacks." },
+            { quote: "Don't forget to attend the meeting tomorrow.", intention: "Reminding", verb: "reminded", reported: "He **reminded** him to attend the meeting." },
+            { quote: "Don't touch those live wires! They are dangerous!", intention: "Warning", verb: "warned", reported: "He **warned** them not to touch the live wires." },
+            { quote: "Go on, continue your work. You're doing great.", intention: "Encouraging", verb: "encouraged", reported: "He **encouraged** him to continue his work." },
+            { quote: "Yes, it's true. We lost the contract.", intention: "Admitting", verb: "admitted", reported: "He **admitted** losing the contract." },
+            { quote: "I did not mislead the public! That's a lie!", intention: "Denying", verb: "denied", reported: "He **denied** misleading the public." },
+            { quote: "Why don't we use Niagara Falls for power?", intention: "Suggesting", verb: "suggested", reported: "He **suggested** using Niagara Falls for power." },
+            { quote: "It would be best to switch to AC power now.", intention: "Recommending", verb: "recommended", reported: "He **recommended** switching to AC power." },
+            { quote: "I wish I hadn't sold my patents so early.", intention: "Regretting", verb: "regretted", reported: "He **regretted** selling his patents so early." },
+            { quote: "I am very sorry for being late.", intention: "Apologizing", verb: "apologized", reported: "He **apologized** for being late." },
+            { quote: "I really must test the motor one more time.", intention: "Insisting", verb: "insisted", reported: "He **insisted** on testing the motor again." }
+        ];
 
-            timer = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
+        // --- Suspect Cards Data (REVERTED TO PDF ROLES) ---
+        const crimeRoles = [
+            { id: 1, title: "The Persuader", icon: "🗣️", start: "'I really think you should tell the police...'", secret: "You want a shorter sentence. Try to persuade everyone to confess." },
+            { id: 2, title: "The Blamer", icon: "👉", start: "'It's your fault that we got caught...'", secret: "You think it's everyone else's fault. Blame them for the arrest." },
+            { id: 3, title: "The Threat", icon: "🔪", start: "'If you say anything, I'll...'", secret: "You don't want anyone to talk. Threaten to hurt anyone who speaks to the police." },
+            { id: 4, title: "The Engineer", icon: "⛏️", start: "'Why don't we dig a tunnel...?'", secret: "You think you can escape. Suggest digging a tunnel." },
+            { id: 5, title: "The Paranoid", icon: "👂", start: "'Don't speak! The police might hear...'", secret: "You think the cell is bugged. Warn everyone not to say anything." },
+            { id: 6, title: "The Optimist", icon: "🌈", start: "'Don't worry, everything will be fine...'", secret: "You are sure you will be released. Reassure everyone." },
+            { id: 7, title: "The Denier", icon: "🙅", start: "'I know what you think, but I didn't tell...'", secret: "Friends think you snitched. Deny talking to the police." },
+            { id: 8, title: "The Moneybags", icon: "💰", start: "'I'll pay for a lawyer if you want...'", secret: "You are rich. Offer to pay for a top lawyer for everyone." },
+            { id: 9, title: "The Snitch", icon: "📝", start: "'I've made a decision. I'm going to tell...'", secret: "You have decided to confess. Announce your decision to the group." },
+            { id: 10, title: "The Boss", icon: "😠", start: "'I'm the boss here, so sit down!'", secret: "You are the leader. Order everyone to sit down and be quiet." },
+            { id: 11, title: "The Bystander", icon: "🚶", start: "'You probably don't know me... I was just walking past.'", secret: "You are actually innocent! Insist that they believe you." },
+            { id: 12, title: "The Mystery", icon: "🎁", start: "'Well done! You hid the money well.'", secret: "You know the money is safe. Congratulate the group on hiding it." }
+        ];
 
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    isRunning = false;
-                    document.getElementById('timer-display').classList.add('text-red-500', 'animate-bounce');
-                    document.getElementById('recording-status').classList.remove('animate-pulse');
-                    document.getElementById('recording-status').textContent = "TIME'S UP! 🛑";
+        // --- Drills Data ---
+        const quizData = [
+            { q: "Direct: 'I didn't steal the money!' (<b>Deny</b>)", options: ["He denied to steal the money.", "He denied stealing the money.", "He denied steal the money."], a: 1 },
+            { q: "Direct: 'Let's meet at the cafe.' (<b>Suggest</b>)", options: ["She suggested meeting at the cafe.", "She suggested to meet at the cafe.", "She suggested meet at the cafe."], a: 0 },
+            { q: "Direct: 'I will definitely help you.' (<b>Promise</b>)", options: ["He promised helping me.", "He promised help me.", "He promised to help me."], a: 2 },
+            { q: "Direct: 'You should see a doctor.' (<b>Advise</b>)", options: ["She advised me seeing a doctor.", "She advised me to see a doctor.", "She advised to see a doctor."], a: 1 },
+            { q: "Direct: 'Don't forget to call mom.' (<b>Remind</b>)", options: ["He reminded me calling mom.", "He reminded to call mom.", "He reminded me to call mom."], a: 2 },
+            { q: "Direct: 'I won't do it!' (<b>Refuse</b>)", options: ["She refused doing it.", "She refused to do it.", "She refused that she do it."], a: 1 },
+            { q: "Direct: 'I'm sorry I was late.' (<b>Apologize</b>)", options: ["He apologized for being late.", "He apologized to be late.", "He apologized being late."], a: 0 },
+            { q: "Direct: 'Please, please let me go.' (<b>Beg</b>)", options: ["He begged letting him go.", "He begged to let him go.", "He begged for let him go."], a: 1 }
+        ];
+
+        const prepData = [
+            { q: "Insist", a: "ON" },
+            { q: "Apologize", a: "FOR" },
+            { q: "Accuse (someone)", a: "OF" },
+            { q: "Congratulate (someone)", a: "ON" },
+            { q: "Blame (someone)", a: "FOR" },
+            { q: "Warn (someone)", a: "ABOUT" },
+            { q: "Complain", a: "ABOUT" },
+            { q: "Object", a: "TO" }
+        ];
+
+        // --- DOM Generation & Logic ---
+        function createVerbCard(item) {
+             const card = document.createElement('div');
+            card.className = 'verb-card bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full';
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-2xl font-bold capitalize text-dark">${item.verb}</h3>
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-md uppercase tracking-wide">${item.func}</span>
+                </div>
+                <div class="space-y-4 mt-2">
+                    <div class="bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
+                        <div class="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-1">Rule: ${item.rules.pattern}</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.example.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-600">$1</strong>')}</p>
+                    </div>
+                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
+                        <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">That-Clause</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.thatExample.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}</p>
+                    </div>
+                </div>`;
+            return card;
+        }
+
+        function createDetectiveCard(item) {
+            const card = document.createElement('div');
+            card.className = 'detective-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md relative overflow-hidden group';
+            card.onclick = function() { if (!this.classList.contains('revealed')) this.classList.add('revealed'); };
+            card.innerHTML = `
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><span class="text-6xl">🕵️</span></div>
+                <div class="mb-4"><div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Direct Quote</div><p class="font-serif italic text-xl text-gray-800 leading-relaxed">"${item.quote}"</p></div>
+                <div class="question-mark text-center py-4"><p class="text-sm font-bold text-primary animate-pulse">Click to Reveal Intention</p></div>
+                <div class="reveal-content"><div class="flex items-center gap-2 mb-2"><span class="text-sm font-bold text-gray-500 uppercase">Intention:</span><span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase">${item.intention}</span></div><div class="bg-gray-50 p-3 rounded-lg border border-gray-100"><p class="text-gray-800">${item.reported.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}</p></div></div>`;
+            return card;
+        }
+
+        // Updated for Spoiler-Proof UI
+        function createSuspectFile(role) {
+            const btn = document.createElement('div');
+            btn.className = 'case-file bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md text-center group flex flex-col items-center justify-center h-40';
+            btn.onclick = () => openRoleModal(role);
+            btn.innerHTML = `
+                <span class="text-5xl mb-2 group-hover:scale-110 transition-transform">📂</span>
+                <span class="font-bold text-gray-700">CASE FILE #${role.id}</span>
+                <span class="text-xs text-gray-400 mt-1 uppercase tracking-widest">Confidential</span>
+            `;
+            return btn;
+        }
+
+        // Updated Voting Button Creator
+        function createVoteButton(role) {
+            const btn = document.createElement('button');
+            btn.className = 'vote-btn bg-gray-800 text-white p-4 rounded-xl font-bold flex flex-col items-center justify-center h-32 border-2 border-gray-700';
+            btn.innerHTML = `
+                <span class="text-3xl mb-1">${role.icon}</span>
+                <span class="text-xs uppercase">${role.title}</span>
+            `;
+            btn.onclick = function() {
+                if (this.classList.contains('sus')) {
+                    this.classList.remove('sus');
+                    this.classList.add('ejected');
+                } else if (this.classList.contains('ejected')) {
+                    this.classList.remove('ejected');
+                } else {
+                    this.classList.add('sus');
                 }
-            }, 1000);
+            };
+            return btn;
         }
 
-        function resetTimer() {
-            clearInterval(timer);
-            isRunning = false;
-            timeLeft = 45;
-            document.getElementById('start-btn').disabled = false;
-            document.getElementById('start-btn').classList.remove('opacity-50', 'cursor-not-allowed');
-            document.getElementById('timer-display').classList.remove('text-red-500', 'animate-bounce');
-            document.getElementById('recording-status').classList.add('opacity-0');
-            document.getElementById('recording-status').classList.remove('animate-pulse');
-            document.getElementById('recording-status').textContent = "🔴 Recording Live • On Air";
-            updateDisplay();
+        function openRoleModal(role) {
+            const modal = document.getElementById('role-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-6xl mx-auto mb-6 shadow-inner border border-gray-300">
+                    ${role.icon}
+                </div>
+                <h3 class="text-3xl font-black text-dark mb-2 font-mono uppercase">${role.title}</h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left my-6">
+                    <p class="text-xs text-yellow-600 font-bold uppercase mb-1">Your Starting Phrase (Direct Speech)</p>
+                    <p class="font-serif italic text-xl text-gray-800">${role.start}</p>
+                </div>
+                <div class="text-left bg-gray-800 p-4 rounded-lg text-white">
+                    <p class="text-xs text-gray-400 font-bold uppercase mb-1">Status Report</p>
+                    <p class="text-sm leading-relaxed">${role.secret}</p>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
         }
 
-        function updateDisplay() {
-            const seconds = timeLeft < 10 ? `0${timeLeft}` : timeLeft;
-            document.getElementById('timer-display').textContent = `00:${seconds}`;
+        function closeRoleModal() {
+            document.getElementById('role-modal').classList.add('hidden');
         }
+
+        function renderVerbGroups() {
+            const container = document.getElementById('verb-groups-container');
+            container.innerHTML = '';
+            for (const [groupName, verbs] of Object.entries(reportingVerbGroups)) {
+                const header = document.createElement('div');
+                header.innerHTML = `<h3 class="text-xl font-bold text-gray-400 uppercase tracking-widest border-b border-gray-200 pb-2 mb-6 flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-primary"></span>${groupName}</h3>`;
+                container.appendChild(header);
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12';
+                verbs.forEach(verb => grid.appendChild(createVerbCard(verb)));
+                container.appendChild(grid);
+            }
+        }
+        
+        function renderDetectiveGame() {
+            const container = document.getElementById('detective-container');
+            container.innerHTML = '';
+            verbDetectiveData.forEach(item => container.appendChild(createDetectiveCard(item)));
+        }
+
+        function renderSuspects() {
+            const listContainer = document.getElementById('suspects-list');
+            const votingContainer = document.getElementById('voting-grid');
+            
+            listContainer.innerHTML = '';
+            votingContainer.innerHTML = '';
+            
+            crimeRoles.forEach(role => {
+                listContainer.appendChild(createSuspectFile(role));
+                votingContainer.appendChild(createVoteButton(role));
+            });
+        }
+
+        // --- Drills Logic ---
+        function loadNewQuizQuestion() {
+            const container = document.getElementById('quiz-container');
+            const q = quizData[Math.floor(Math.random() * quizData.length)];
+            container.innerHTML = `
+                <div class="text-lg font-mono text-gray-700 mb-4 bg-gray-50 p-3 rounded border-l-4 border-indigo-500">${q.q}</div>
+                <div class="space-y-2">
+                    ${q.options.map((opt, i) => `<button onclick="checkQuiz(this, ${i === q.a})" class="drill-btn w-full text-left p-3 rounded border border-gray-200 hover:bg-gray-50 text-sm font-medium text-gray-600">${opt}</button>`).join('')}
+                </div>
+            `;
+        }
+
+        function checkQuiz(btn, isCorrect) {
+            if (isCorrect) {
+                btn.classList.add('correct');
+                btn.innerHTML += ' ✅';
+            } else {
+                btn.classList.add('incorrect');
+                btn.innerHTML += ' ❌';
+            }
+        }
+
+        function loadPrepositionDrill() {
+            const qObj = prepData[Math.floor(Math.random() * prepData.length)];
+            document.getElementById('prep-question').textContent = `"${qObj.q}..."`;
+            
+            // Generate distinct options including the correct one
+            let options = ["ON", "FOR", "OF", "TO", "ABOUT", "WITH"];
+            // Ensure correct answer is present
+            if (!options.includes(qObj.a)) options.push(qObj.a);
+            
+            // Randomly select 3 distractors + correct answer
+            let displayedOptions = [qObj.a];
+            while (displayedOptions.length < 4) {
+                const randomOpt = options[Math.floor(Math.random() * options.length)];
+                if (!displayedOptions.includes(randomOpt)) displayedOptions.push(randomOpt);
+            }
+            displayedOptions.sort(() => 0.5 - Math.random()); // Shuffle
+            
+            const container = document.getElementById('prep-options');
+            container.innerHTML = displayedOptions.map(opt => `<button onclick="checkPrep(this, '${opt}', '${qObj.a}')" class="drill-btn w-full p-4 text-lg rounded border border-gray-200 hover:bg-yellow-50 text-gray-600 font-bold">${opt}</button>`).join('');
+            document.getElementById('prep-feedback').textContent = '';
+        }
+
+        function checkPrep(btn, selected, correct) {
+            if (selected === correct) {
+                btn.classList.add('correct');
+                document.getElementById('prep-feedback').innerHTML = '<span class="text-green-500">Correct!</span>';
+                setTimeout(loadPrepositionDrill, 1000);
+            } else {
+                btn.classList.add('incorrect');
+                document.getElementById('prep-feedback').innerHTML = '<span class="text-red-500">Try again!</span>';
+            }
+        }
+
+        function initChart() {
+            const ctx = document.getElementById('verbFunctionChart');
+            if (!ctx) return;
+            const functions = {};
+            allVerbs.forEach(v => { if (!functions[v.func]) functions[v.func] = 0; functions[v.func]++; });
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(functions),
+                    datasets: [{ label: 'Count', data: Object.values(functions), backgroundColor: ['rgba(255, 107, 107, 0.8)', 'rgba(78, 205, 196, 0.8)', 'rgba(255, 209, 102, 0.8)', 'rgba(45, 52, 54, 0.8)', 'rgba(6, 214, 160, 0.8)'], borderRadius: 6, borderSkipped: false }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#2D3436', padding: 12, titleFont: { family: 'Inter', size: 14 }, bodyFont: { family: 'Inter', size: 13 } } }, scales: { y: { beginAtZero: true, grid: { display: false }, ticks: { font: { family: 'Inter' } } }, x: { grid: { display: false }, ticks: { font: { family: 'Inter', weight: 'bold' } } } }, animation: { duration: 1500, easing: 'easeOutQuart' } }
+            });
+        }
+
+        // --- Gemini API (Preserved) ---
+        async function callGeminiWithExponentialBackoff(prompt, maxRetries = 3) {
+            let delay = 1000;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, topK: 40, topP: 0.95 } };
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                    if (!response.ok) throw new Error(`Status: ${response.status}`);
+                    const result = await response.json();
+                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
+                } catch (error) {
+                    if (i === maxRetries - 1) { console.error("API Failure", error); return null; }
+                    await new Promise(res => setTimeout(res, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // --- App Initialization & Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderVerbGroups();
+            renderDetectiveGame();
+            renderSuspects();
+            initChart();
+            loadNewQuizQuestion();
+            loadPrepositionDrill();
+
+            const generateBtn = document.getElementById('generate-scenario-btn');
+            const scenarioBox = document.getElementById('scenario-box');
+            const scenarioText = document.getElementById('scenario-text');
+            const directQuoteText = document.getElementById('direct-quote-text');
+            const userInput = document.getElementById('user-input');
+            const checkBtn = document.getElementById('check-sentence-btn');
+            const feedbackBox = document.getElementById('feedback-box');
+            const feedbackLoader = document.getElementById('feedback-loader');
+            const feedbackText = document.getElementById('feedback-text');
+            
+            let currentVerb = '';
+
+            generateBtn.addEventListener('click', async () => {
+                generateBtn.disabled = true;
+                generateBtn.innerHTML = '<span class="loader border-t-white w-5 h-5 border-2"></span> Generating...';
+                scenarioBox.classList.add('hidden');
+                const randomVerb = allVerbs[Math.floor(Math.random() * allVerbs.length)];
+                currentVerb = randomVerb.verb;
+                const prompt = `Generate a JSON object with a single key "quote". The value should be a short, direct quote (1 sentence) spoken by Thomas Edison or Nikola Tesla during the War of the Currents. The quote must be suitable for reporting using the verb "${currentVerb}". Example: {"quote": "AC power is far superior."}`;
+                const response = await callGeminiWithExponentialBackoff(prompt);
+                if (response) {
+                    try {
+                        const jsonStr = response.replace(/```json|```/g, '').trim();
+                        const data = JSON.parse(jsonStr);
+                        scenarioBox.classList.remove('hidden');
+                        scenarioText.innerHTML = `Report this quote using <span class="text-primary font-bold">"${currentVerb}"</span>.`;
+                        directQuoteText.textContent = `"${data.quote}"`;
+                        userInput.value = '';
+                        feedbackBox.classList.add('hidden');
+                        setTimeout(() => scenarioBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+                    } catch (e) { alert("Could not parse the history books. Please try again!"); }
+                } else { alert("The telegraph lines are down (API Error). Please try again."); }
+                generateBtn.disabled = false;
+                generateBtn.innerHTML = '<span>🎲</span> Generate New Scenario';
+            });
+
+            checkBtn.addEventListener('click', async () => {
+                const userSentence = userInput.value.trim();
+                if (!userSentence) return;
+                checkBtn.disabled = true;
+                checkBtn.innerHTML = 'Analyzing...';
+                feedbackBox.classList.remove('hidden');
+                feedbackLoader.classList.remove('hidden');
+                feedbackText.innerHTML = '';
+                const prompt = `Act as a supportive English grammar teacher. Task: A student is converting a Direct Quote to Reported Speech. Verb to use: "${currentVerb}". Direct Quote: "${directQuoteText.textContent}". Student Answer: "${userSentence}". Please provide: 1. A verdict (Correct/Incorrect) with an emoji. 2. A brief explanation of the grammar rules (tense shift, pronouns, pattern). 3. The perfect version if theirs was wrong. Keep it concise and encouraging.`;
+                const response = await callGeminiWithExponentialBackoff(prompt);
+                feedbackLoader.classList.add('hidden');
+                feedbackText.innerHTML = response || "Could not generate feedback.";
+                checkBtn.disabled = false;
+                checkBtn.innerHTML = '<span>✨</span> Get AI Feedback';
+            });
+        });
     </script>
 </body>
 </html>
