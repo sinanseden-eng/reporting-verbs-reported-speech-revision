@@ -367,7 +367,6 @@
                             </div>
                         </div>
                         <div id="time" class="tab-content space-y-8">
-                            <!-- (Existing Time Content) -->
                             <div class="bg-yellow-50 p-8 rounded-2xl border border-yellow-100">
                                 <h4 class="font-bold text-gray-800 text-xl mb-6">⏰ Time Expressions</h4>
                                 <ul class="space-y-2">
@@ -378,7 +377,6 @@
                             </div>
                         </div>
                         <div id="other" class="tab-content space-y-8">
-                            <!-- (Existing Other Content) -->
                             <!-- Questions -->
                             <h4 class="font-bold text-lg mb-4 text-gray-700">❓ Reporting Questions</h4>
                             <div class="space-y-4 mb-8">
@@ -684,20 +682,51 @@
                 </section>
                 <section id="practice-zone">
                     <div class="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-dark/10">
-                        <div class="bg-dark p-8 text-center"><h2 class="text-3xl font-bold text-white mb-2">The Reporting Simulator 🤖</h2></div>
+                        <div class="bg-dark p-8 text-center">
+                            <h2 class="text-3xl font-bold text-white mb-2">The Reporting Simulator 🤖</h2>
+                            <p class="text-gray-400">Offline Mode</p>
+                        </div>
                         <div class="p-8">
-                            <div class="text-center mb-8"><button id="generate-scenario-btn" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg">🎲 Generate Scenario</button></div>
-                            <div id="scenario-box" class="max-w-3xl mx-auto bg-gray-50 rounded-2xl p-6 hidden">
-                                <p id="scenario-text" class="text-lg font-medium"></p>
-                                <p id="direct-quote-text" class="font-serif text-xl italic my-4"></p>
-                                <textarea id="user-input" class="w-full p-4 border rounded-xl" rows="3"></textarea>
-                                <button id="check-sentence-btn" class="mt-4 w-full bg-dark text-white font-bold py-3 px-6 rounded-xl">✨ Get Feedback</button>
-                                <div id="feedback-box" class="mt-6 hidden bg-blue-50 p-6 rounded-xl"><div id="feedback-loader" class="loader hidden"></div><p id="feedback-text"></p></div>
+                            <div class="text-center mb-8">
+                                <button id="generate-scenario-btn" class="bg-primary text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-red-500 transition transform hover:scale-105">
+                                    🎲 Generate Scenario
+                                </button>
+                            </div>
+                            
+                            <div id="scenario-box" class="max-w-3xl mx-auto bg-gray-50 rounded-2xl p-6 hidden transition-all duration-300">
+                                <p id="scenario-text" class="text-lg font-medium text-gray-600 mb-2"></p>
+                                
+                                <!-- The Quote Card -->
+                                <div class="bg-white p-6 rounded-xl border-l-4 border-primary shadow-sm mb-6">
+                                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Direct Speech</p>
+                                    <p id="direct-quote-text" class="font-serif text-2xl italic text-dark"></p>
+                                    <p id="speaker-text" class="text-right text-sm text-gray-500 mt-2 font-bold"></p>
+                                </div>
+
+                                <!-- Input Area -->
+                                <div class="space-y-4">
+                                    <label class="block text-sm font-bold text-gray-700">Your Reported Sentence:</label>
+                                    <textarea id="user-input" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-0 transition" rows="2" placeholder="He said that..."></textarea>
+                                    
+                                    <button id="check-sentence-btn" class="w-full bg-dark text-white font-bold py-3 px-6 rounded-xl hover:bg-gray-800 transition">
+                                        ✨ Check Answer
+                                    </button>
+                                </div>
+
+                                <!-- Feedback Area -->
+                                <div id="feedback-box" class="mt-6 hidden bg-white p-6 rounded-xl border border-gray-200 shadow-inner">
+                                    <h4 id="verdict-title" class="text-xl font-bold mb-2"></h4>
+                                    <p id="feedback-text" class="text-gray-700 mb-4"></p>
+                                    <div class="bg-green-50 p-3 rounded-lg border border-green-200">
+                                        <p class="text-xs font-bold text-green-700 uppercase mb-1">Correct Answer:</p>
+                                        <p id="correct-answer-text" class="font-medium text-dark"></p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- New Textbook Instruction Section -->
+                    <!-- Textbook Instruction Section -->
                     <div class="mt-12 bg-white p-8 rounded-2xl shadow-lg border-l-8 border-blue-600 flex items-center gap-6">
                         <div class="text-5xl">📘</div>
                         <div>
@@ -711,90 +740,85 @@
                 </section>
             </div>
 
-            <!-- ================= VIEW 3: CRIME ROLEPLAY (UPDATED) ================= -->
+            <!-- ================= VIEW 3: CRIME ROLEPLAY (UPDATED - DIAMOND HEIST) ================= -->
             <div id="view-crime" class="main-view space-y-16">
                 
-                <!-- Hero Section -->
+                <!-- Hero Section (ATMOSPHERE UPDATE) -->
                 <div class="bg-police text-white rounded-2xl shadow-2xl overflow-hidden bg-jail-bars relative">
-                    <div class="absolute inset-0 bg-black/60"></div>
+                    <div class="absolute inset-0 bg-black/80"></div>
                     <div class="relative z-10 p-10 md:p-16 text-center">
-                        <div class="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 animate-pulse">Emergency Investigation</div>
-                        <h2 class="text-4xl md:text-6xl font-black font-serif mb-6">The Snitch's Twist 🕵️‍♂️</h2>
-                        <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-                            A bank robbery happened at 10:00 PM. Most of you have a solid alibi, but one person is the <strong>Real Criminal</strong>. They are lying. Your job is to report everyone's story to your partner and find the person whose story doesn't match the evidence!
-                        </p>
+                        <div class="inline-block bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 animate-pulse">Case #5501: Active Investigation</div>
+                        <h2 class="text-4xl md:text-6xl font-black font-serif mb-6 text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white drop-shadow-lg">The Diamond Heist 💎</h2>
+                        
+                        <div class="max-w-4xl mx-auto space-y-6 text-lg md:text-xl text-gray-300 leading-relaxed font-light">
+                            <p class="italic font-serif text-2xl text-blue-200">"The storm raged outside, masking the sound of the breaking lock..."</p>
+                            
+                            <p>
+                                It is a dark and rainy night at Blackwood Manor. At exactly <strong>9:00 PM</strong>, the alarm shattered the silence. The legendary "Star of the East" diamond has vanished from the library.
+                            </p>
+                            
+                            <div class="bg-white/10 p-6 rounded-xl border border-white/20 backdrop-blur-sm text-left mx-auto max-w-2xl">
+                                <h4 class="text-xs font-bold uppercase tracking-widest text-blue-300 mb-2">Initial Scene Report:</h4>
+                                <ul class="space-y-2 list-disc list-inside text-gray-200 text-base">
+                                    <li>The storm outside has turned the garden into a mud bath.</li>
+                                    <li>The glass case was lifted, yet no fingerprints were left behind.</li>
+                                    <li>The theft occurred precisely when the clock struck <strong>9:00 PM</strong>.</li>
+                                </ul>
+                            </div>
+
+                            <p class="font-medium text-white mt-6">
+                                <span class="text-red-400 font-bold">THE MISSION:</span> Among you are <strong>TWO criminals</strong> working together. Interview the guests. Find the two suspects whose stories reveal they were in the garden or covered their tracks.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Training Module: Interrogation Sample (NEW) -->
+                <!-- Training Module: Interrogation Sample (UPDATED) -->
                 <section class="max-w-5xl mx-auto bg-gray-50 border-l-8 border-police p-8 rounded-r-xl shadow-md">
-                    <h3 class="text-2xl font-bold text-dark mb-6">🎓 Training Module: How to Interrogate</h3>
-                    <p class="text-gray-600 mb-6">Don't just say "He said." Use the right verbs to catch the liar!</p>
+                    <h3 class="text-2xl font-bold text-dark mb-6">🎓 Training Module: How to Report Crimes</h3>
+                    <p class="text-gray-600 mb-6">Use these patterns to catch the liars!</p>
                     
                     <div class="space-y-4">
-                        <!-- Dialogue Step 1 -->
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">A</div>
-                            <div class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm border border-gray-200 flex-1">
-                                <p class="text-sm font-bold text-blue-500 mb-1">Detective A</p>
-                                <p>I spoke to Role 1. He said: <em>"I really think you should tell the police everything."</em></p>
+                        <!-- Dialogue Step 1: Interview Phase -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h4 class="font-bold text-blue-600 mb-2 uppercase text-sm">Phase 1: The Interview</h4>
+                            <div class="space-y-2">
+                                <p><span class="font-bold">Interviewer:</span> "Where were you at 9:00 PM?"</p>
+                                <p><span class="font-bold">Suspect:</span> "I was in the kitchen baking a cake."</p>
                             </div>
                         </div>
 
-                        <!-- Dialogue Step 2 -->
-                        <div class="flex gap-4 flex-row-reverse">
-                            <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center font-bold">B</div>
-                            <div class="bg-white p-4 rounded-xl rounded-tr-none shadow-sm border border-gray-200 flex-1 text-right">
-                                <p class="text-sm font-bold text-green-600 mb-1">Detective B</p>
-                                <p>Aha! So he <span class="font-bold text-dark bg-yellow-100 px-1">persuaded</span> us to confess!</p>
+                        <!-- Dialogue Step 2: Meeting Phase (Specific Sample requested) -->
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+                            <h4 class="font-bold text-green-600 mb-2 uppercase text-sm">Phase 2: The Meeting (Sample Argument)</h4>
+                            <div class="space-y-3">
+                                <p class="italic text-gray-500 text-sm border-b pb-2 mb-2">Example from a previous case:</p>
+                                <p>
+                                    <span class="font-bold">Detective A:</span> 
+                                    "I think Suspect 7 is the criminal because <strong>he denied being near the vault</strong>, but the evidence shows footprints there."
+                                </p>
+                                <p>
+                                    <span class="font-bold">Detective B:</span> 
+                                    "I agree. Also, Suspect 6 cannot be the criminal because <strong>she mentioned playing the piano</strong> in the main hall at that exact time."
+                                </p>
                             </div>
-                        </div>
-
-                        <!-- Dialogue Step 3 -->
-                        <div class="flex gap-4">
-                            <div class="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-bold">A</div>
-                            <div class="bg-white p-4 rounded-xl rounded-tl-none shadow-sm border border-gray-200 flex-1">
-                                <p class="text-sm font-bold text-blue-500 mb-1">Detective A</p>
-                                <p>Exactly. But Role 3 said: <em>"If you talk, I'll kill you!"</em> He <span class="font-bold text-dark bg-yellow-100 px-1">threatened</span> to kill anyone who spoke.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- New Verb List -->
-                    <div class="mt-8 border-t-2 border-gray-200 pt-6">
-                        <h4 class="font-bold text-dark mb-4 uppercase tracking-wide text-sm flex items-center gap-2">
-                            <span>🔍</span> Essential Verbs for Detectives
-                        </h4>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Persuaded</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Blamed</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Threatened</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Suggested</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Warned</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Reassured</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Denied</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Offered</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Announced</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Ordered</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Insisted</span>
-                            <span class="px-3 py-1 bg-white border border-gray-300 rounded-full text-sm font-medium text-gray-700 hover:bg-police hover:text-white transition cursor-default">Congratulated</span>
                         </div>
                     </div>
                 </section>
 
-                <!-- Mission Briefing with Twist -->
+                <!-- Mission Briefing -->
                 <section class="max-w-5xl mx-auto">
                     <!-- Teacher's Note for Class Size -->
-                    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-8 rounded-r shadow-sm">
-                        <div class="flex items-start gap-3">
-                            <span class="text-2xl">👨‍🏫</span>
+                    <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-r shadow-sm">
+                        <div class="flex items-start gap-4">
+                            <span class="text-3xl">👨‍🏫</span>
                             <div>
-                                <h4 class="font-bold text-blue-900 text-sm uppercase tracking-wide">Classroom Setup Guide</h4>
-                                <p class="text-blue-800 text-sm mt-1">
-                                    <strong>Recommended:</strong> Use the <span class="font-bold underline">Printable Role Cards</span>. Hand one card to each student.
+                                <h4 class="font-bold text-blue-900 text-lg uppercase tracking-wide mb-2">Classroom Mission Briefing</h4>
+                                <p class="text-blue-800 text-base mb-2">
+                                    <strong>Team Setup:</strong> Since we have 22-23 students, we will split into <strong>TWO separate investigation groups</strong> (Group A and Group B).
                                 </p>
-                                <p class="text-blue-800 text-sm mt-2">
-                                    If playing digitally: Assign each student a number (1-12). They must ONLY click their assigned folder.
+                                <p class="text-blue-800 text-base">
+                                    <strong>Crucial Rule:</strong> You must <strong>REPEAT</strong> the interview cycle with every suspect in your group. Take notes of exactly what <strong>at least 3 people</strong> said so you can report it accurately in Phase 2.
                                 </p>
                             </div>
                         </div>
@@ -803,19 +827,19 @@
                     <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-primary">
                             <h3 class="font-bold text-dark mb-2">1. The Mingle</h3>
-                            <p class="text-sm text-gray-600">Walk around. Use the <strong>Direct Speech</strong> phrase on your card to talk to everyone.</p>
+                            <p class="text-sm text-gray-600">Walk around. Ask: <em>"Where were you at 9 PM?"</em> and <em>"What were you wearing?"</em></p>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-yellow-500">
                             <h3 class="font-bold text-dark mb-2">2. The Evidence</h3>
-                            <p class="text-sm text-gray-600"><strong>STOP!</strong> Reveal the Police Evidence below. Read the facts carefully.</p>
+                            <p class="text-sm text-gray-600"><strong>STOP!</strong> Reveal the Police Evidence below to see the clues about the thief.</p>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-emergency">
                             <h3 class="font-bold text-emergency mb-2">3. The Meeting</h3>
-                            <p class="text-sm text-gray-600">Sit with a partner. Report what people said using the <strong>reporting verbs</strong>. <em>"Role 4 suggested that..."</em></p>
+                            <p class="text-sm text-gray-600">Report findings using verbs like <em>denied, admitted, claimed</em>. Identify the contradictory stories.</p>
                         </div>
                         <div class="bg-white p-6 rounded-2xl shadow-lg border-t-4 border-secondary">
                             <h3 class="font-bold text-dark mb-2">4. The Vote</h3>
-                            <p class="text-sm text-gray-600">Decide who is innocent based on the evidence and their statements.</p>
+                            <p class="text-sm text-gray-600">Decide who the <strong>TWO</strong> criminals are based on the evidence.</p>
                         </div>
                     </div>
                 </section>
@@ -827,10 +851,11 @@
                         <span>CLICK TO OPEN POLICE EVIDENCE (Phase 2)</span>
                     </button>
                     <div id="evidence-content" class="hidden mt-6 bg-black/90 p-8 rounded-2xl border border-gray-800 text-green-500 font-mono text-lg space-y-4 shadow-2xl">
-                        <h4 class="text-white border-b border-gray-700 pb-2 mb-4">EVIDENCE REPORT #9921</h4>
-                        <p>> FACT 1: DNA samples confirm 11 suspects were at the bank.</p>
-                        <p>> FACT 2: One person was DEFINITELY just a passer-by.</p>
-                        <p class="pt-6 text-gray-400 italic">// INSTRUCTION: Find the suspect who claimed they were "just walking past". That is the Innocent Person.</p>
+                        <h4 class="text-white border-b border-gray-700 pb-2 mb-4">EVIDENCE REPORT #5501</h4>
+                        <p>> FACT 1: The thief entered through the <strong>GARDEN WINDOW</strong> (Muddy footprints were found).</p>
+                        <p>> FACT 2: The thief wore <strong>LEATHER GLOVES</strong> (No fingerprints were found on the glass case).</p>
+                        <p>> FACT 3: The theft happened at exactly <strong>9:00 PM</strong>.</p>
+                        <p class="pt-6 text-gray-400 italic">// INSTRUCTION: Find the two suspects who admit to being in the garden or wearing gloves.</p>
                     </div>
                 </section>
 
@@ -960,15 +985,12 @@
         </main>
         
         <footer class="mt-auto py-12 text-center text-gray-400 text-sm">
-            <p>© 2025 The Reporter's Toolkit. Built with Tailwind & Gemini.</p>
+            <p>© 2025 The Reporter's Toolkit. Built with Tailwind.</p>
         </footer>
 
     </div>
 
     <script>
-        // --- API Configuration ---
-        const apiKey = ""; 
-        
         // --- Tab Logic ---
         function switchMainTab(viewName) {
             document.querySelectorAll('.main-view').forEach(el => el.classList.remove('active'));
@@ -994,26 +1016,127 @@
             btn.classList.add('text-dark', 'border-primary', 'bg-white');
         }
 
-        // --- Helper for Textbook Quiz ---
-        function checkTextbookAns(btn, isCorrect) {
-            const parent = btn.parentElement;
-            Array.from(parent.children).forEach(c => {
-                c.classList.remove('bg-green-100', 'border-green-500', 'text-green-700', 'bg-red-100', 'border-red-500', 'text-red-700');
-                c.classList.add('bg-white', 'border-gray-300');
-            });
+        // --- Data: Offline Scenario Bank (Replaces API) ---
+        const offlineScenarios = [
+            { quote: "I will pay you $50,000 for the work.", speaker: "Edison", verb: "promised", answer: "Edison promised to pay $50,000 for the work." },
+            { quote: "AC power is dangerous.", speaker: "Edison", verb: "warned", answer: "Edison warned that AC power was dangerous." },
+            { quote: "No, I won't accept the Nobel Prize.", speaker: "Tesla", verb: "refused", answer: "Tesla refused to accept the Nobel Prize." },
+            { quote: "Yes, I think we should use waterfalls.", speaker: "Tesla", verb: "agreed", answer: "Tesla agreed to use waterfalls." },
+            { quote: "I didn't steal the patent!", speaker: "The employee", verb: "denied", answer: "The employee denied stealing the patent." },
+            { quote: "Why don't we test the motor tomorrow?", speaker: "Tesla", verb: "suggested", answer: "Tesla suggested testing the motor the next day." },
+            { quote: "I'm sorry I was late to the lab.", speaker: "The assistant", verb: "apologized", answer: "The assistant apologized for being late to the lab." },
+            { quote: "You really must try this new bulb.", speaker: "Edison", verb: "insisted", answer: "Edison insisted on trying the new bulb." },
+            { quote: "Don't forget to lock the lab door.", speaker: "The manager", verb: "reminded", answer: "The manager reminded him to lock the lab door." },
+            { quote: "Go ahead, file the patent.", speaker: "The investor", verb: "encouraged", answer: "The investor encouraged him to file the patent." }
+        ];
 
-            if (isCorrect) {
-                btn.classList.remove('bg-white', 'border-gray-300');
-                btn.classList.add('bg-green-100', 'border-green-500', 'text-green-700');
-                btn.innerHTML += ' ✅';
-            } else {
-                btn.classList.remove('bg-white', 'border-gray-300');
-                btn.classList.add('bg-red-100', 'border-red-500', 'text-red-700');
-                btn.innerHTML += ' ❌';
-            }
+        let currentScenario = null;
+
+        // --- Helper Functions ---
+        function createVerbCard(item) {
+            const card = document.createElement('div');
+            card.className = 'verb-card bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full';
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-3">
+                    <h3 class="text-2xl font-bold capitalize text-dark">${item.verb}</h3>
+                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-md uppercase tracking-wide">${item.func}</span>
+                </div>
+                <div class="space-y-4 mt-2">
+                    <div class="bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
+                        <div class="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-1">Rule: ${item.rules.pattern}</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.example.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-600">$1</strong>')}</p>
+                    </div>
+                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
+                        <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">That-Clause</div>
+                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.thatExample.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}</p>
+                    </div>
+                </div>`;
+            return card;
         }
 
-        // --- Data: Reporting Verbs Groups (Preserved) ---
+        function createDetectiveCard(item) {
+            const card = document.createElement('div');
+            card.className = 'detective-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md relative overflow-hidden group';
+            card.onclick = function() { if (!this.classList.contains('revealed')) this.classList.add('revealed'); };
+            card.innerHTML = `
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><span class="text-6xl">🕵️</span></div>
+                <div class="mb-4"><div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Direct Quote</div><p class="font-serif italic text-xl text-gray-800 leading-relaxed">"${item.quote}"</p></div>
+                <div class="question-mark text-center py-4"><p class="text-sm font-bold text-primary animate-pulse">Click to Reveal Intention</p></div>
+                <div class="reveal-content"><div class="flex items-center gap-2 mb-2"><span class="text-sm font-bold text-gray-500 uppercase">Intention:</span><span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase">${item.intention}</span></div><div class="bg-gray-50 p-3 rounded-lg border border-gray-100"><p class="text-gray-800">${item.reported.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}</p></div></div>`;
+            return card;
+        }
+
+        function createSuspectFile(role) {
+            const btn = document.createElement('div');
+            btn.className = 'case-file bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md text-center group flex flex-col items-center justify-center h-40';
+            btn.onclick = () => openRoleModal(role);
+            btn.innerHTML = `
+                <span class="text-5xl mb-2 group-hover:scale-110 transition-transform">📂</span>
+                <span class="font-bold text-gray-700">CASE FILE #${role.id}</span>
+                <span class="text-xs text-gray-400 mt-1 uppercase tracking-widest">Confidential</span>
+            `;
+            return btn;
+        }
+
+        function createVoteButton(role) {
+            const btn = document.createElement('button');
+            btn.className = 'vote-btn bg-gray-800 text-white p-4 rounded-xl font-bold flex flex-col items-center justify-center h-32 border-2 border-gray-700';
+            btn.innerHTML = `
+                <span class="text-3xl mb-1">${role.icon}</span>
+                <span class="text-xs uppercase text-center">#${role.id} ${role.title}</span>
+            `;
+            btn.onclick = function() {
+                if (this.classList.contains('sus')) {
+                    this.classList.remove('sus');
+                    this.classList.add('ejected');
+                } else if (this.classList.contains('ejected')) {
+                    this.classList.remove('ejected');
+                } else {
+                    this.classList.add('sus');
+                }
+            };
+            return btn;
+        }
+
+        function openRoleModal(role) {
+            const modal = document.getElementById('role-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-6xl mx-auto mb-6 shadow-inner border border-gray-300">
+                    ${role.icon}
+                </div>
+                <h3 class="text-3xl font-black text-dark mb-2 font-mono uppercase">${role.title}</h3>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left my-6">
+                    <p class="text-xs text-yellow-600 font-bold uppercase mb-1">Your Starting Phrase (Direct Speech)</p>
+                    <p class="font-serif italic text-xl text-gray-800">${role.start}</p>
+                </div>
+                <div class="text-left bg-gray-800 p-4 rounded-lg text-white">
+                    <p class="text-xs text-gray-400 font-bold uppercase mb-1">Status Report</p>
+                    <p class="text-sm leading-relaxed">${role.secret}</p>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+        }
+
+        function closeRoleModal() {
+            document.getElementById('role-modal').classList.add('hidden');
+        }
+
+        // --- Textbook Pop-out Logic ---
+        function openTextbookModal() {
+            const modal = document.getElementById('textbook-modal');
+            const exercisesSource = document.getElementById('textbook-exercises-panel');
+            const exercisesDest = document.getElementById('modal-exercises-container');
+            exercisesDest.innerHTML = exercisesSource.innerHTML;
+            modal.classList.remove('hidden');
+        }
+
+        function closeTextbookModal() {
+            document.getElementById('textbook-modal').classList.add('hidden');
+        }
+
+        // --- Data Definitions ---
         const reportingVerbGroups = {
             "Verb + Infinitive": [
                 { verb: 'agree', func: 'Agreeing', pattern: 'Verb + to + infinitive', rules: { pattern: 'Verb + to + Infinitive', example: 'Tesla **agreed to share** his patents.', thatExample: 'Tesla **agreed that** he would share his patents.' } },
@@ -1061,20 +1184,20 @@
             { quote: "I really must test the motor one more time.", intention: "Insisting", verb: "insisted", reported: "He **insisted** on testing the motor again." }
         ];
 
-        // --- Suspect Cards Data (REVERTED TO PDF ROLES) ---
+        // --- Suspect Cards Data ---
         const crimeRoles = [
-            { id: 1, title: "The Persuader", icon: "🗣️", start: "'I really think you should tell the police...'", secret: "You want a shorter sentence. Try to persuade everyone to confess." },
-            { id: 2, title: "The Blamer", icon: "👉", start: "'It's your fault that we got caught...'", secret: "You think it's everyone else's fault. Blame them for the arrest." },
-            { id: 3, title: "The Threat", icon: "🔪", start: "'If you say anything, I'll...'", secret: "You don't want anyone to talk. Threaten to hurt anyone who speaks to the police." },
-            { id: 4, title: "The Engineer", icon: "⛏️", start: "'Why don't we dig a tunnel...?'", secret: "You think you can escape. Suggest digging a tunnel." },
-            { id: 5, title: "The Paranoid", icon: "👂", start: "'Don't speak! The police might hear...'", secret: "You think the cell is bugged. Warn everyone not to say anything." },
-            { id: 6, title: "The Optimist", icon: "🌈", start: "'Don't worry, everything will be fine...'", secret: "You are sure you will be released. Reassure everyone." },
-            { id: 7, title: "The Denier", icon: "🙅", start: "'I know what you think, but I didn't tell...'", secret: "Friends think you snitched. Deny talking to the police." },
-            { id: 8, title: "The Moneybags", icon: "💰", start: "'I'll pay for a lawyer if you want...'", secret: "You are rich. Offer to pay for a top lawyer for everyone." },
-            { id: 9, title: "The Snitch", icon: "📝", start: "'I've made a decision. I'm going to tell...'", secret: "You have decided to confess. Announce your decision to the group." },
-            { id: 10, title: "The Boss", icon: "😠", start: "'I'm the boss here, so sit down!'", secret: "You are the leader. Order everyone to sit down and be quiet." },
-            { id: 11, title: "The Bystander", icon: "🚶", start: "'You probably don't know me... I was just walking past.'", secret: "You are actually innocent! Insist that they believe you." },
-            { id: 12, title: "The Mystery", icon: "🎁", start: "'Well done! You hid the money well.'", secret: "You know the money is safe. Congratulate the group on hiding it." }
+            { id: 1, title: "The Chef", icon: "👩‍🍳", start: "'I've been slaving over a hot stove in the kitchen...'", secret: "You are innocent. You were baking a cake." },
+            { id: 2, title: "The Pianist", icon: "🎹", start: "'I was right there on stage in the main hall...'", secret: "You are innocent. You were performing for guests." },
+            { id: 3, title: "The Swimmer", icon: "🏊", start: "'Can't you see I'm soaking wet? I just got out...'", secret: "You are innocent. You were in the pool." },
+            { id: 4, title: "The Gardener", icon: "🌿", start: "'I've been working in the mud by the flowerbeds...'", secret: "GUILTY! You entered through the garden window." },
+            { id: 5, title: "The Guard", icon: "👮", start: "'I was standing at the front door the whole time...'", secret: "You are innocent. You were guarding the front." },
+            { id: 6, title: "The Artist", icon: "🎨", start: "'I was upstairs painting a portrait. Look at the paint...'", secret: "You are innocent. You were painting upstairs." },
+            { id: 7, title: "The Gamer", icon: "🎮", start: "'I was in the basement beating my high score...'", secret: "You are innocent. You were gaming in the basement." },
+            { id: 8, title: "The Doctor", icon: "🩺", start: "'I was attending to a guest who fainted in the library...'", secret: "You are innocent. You were helping a guest." },
+            { id: 9, title: "The Biker", icon: "🏍️", start: "'I just got here on my bike. I haven't even taken my leather gloves off...'", secret: "GUILTY! You wore gloves to avoid fingerprints." },
+            { id: 10, title: "The Dancer", icon: "💃", start: "'I haven't left the dance floor for hours...'", secret: "You are innocent. You were dancing." },
+            { id: 11, title: "The Photographer", icon: "📸", start: "'I was busy taking photos of the cake...'", secret: "You are innocent. You were taking photos." },
+            { id: 12, title: "The Dog Walker", icon: "🐶", start: "'I was walking the dog down the street...'", secret: "You are innocent. You were outside walking the dog." }
         ];
 
         // --- Drills Data ---
@@ -1101,118 +1224,6 @@
         ];
 
         // --- DOM Generation & Logic ---
-        function createVerbCard(item) {
-             const card = document.createElement('div');
-            card.className = 'verb-card bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col h-full';
-            card.innerHTML = `
-                <div class="flex justify-between items-start mb-3">
-                    <h3 class="text-2xl font-bold capitalize text-dark">${item.verb}</h3>
-                    <span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-bold rounded-md uppercase tracking-wide">${item.func}</span>
-                </div>
-                <div class="space-y-4 mt-2">
-                    <div class="bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
-                        <div class="text-xs font-bold text-indigo-400 uppercase tracking-wide mb-1">Rule: ${item.rules.pattern}</div>
-                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.example.replace(/\*\*(.*?)\*\*/g, '<strong class="text-indigo-600">$1</strong>')}</p>
-                    </div>
-                    <div class="bg-orange-50/50 p-3 rounded-lg border border-orange-100">
-                        <div class="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">That-Clause</div>
-                        <p class="text-sm text-gray-700 italic leading-relaxed">${item.rules.thatExample.replace(/\*\*(.*?)\*\*/g, '<strong class="text-orange-600">$1</strong>')}</p>
-                    </div>
-                </div>`;
-            return card;
-        }
-
-        function createDetectiveCard(item) {
-            const card = document.createElement('div');
-            card.className = 'detective-card bg-white rounded-xl border border-gray-200 p-6 shadow-sm hover:shadow-md relative overflow-hidden group';
-            card.onclick = function() { if (!this.classList.contains('revealed')) this.classList.add('revealed'); };
-            card.innerHTML = `
-                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity"><span class="text-6xl">🕵️</span></div>
-                <div class="mb-4"><div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Direct Quote</div><p class="font-serif italic text-xl text-gray-800 leading-relaxed">"${item.quote}"</p></div>
-                <div class="question-mark text-center py-4"><p class="text-sm font-bold text-primary animate-pulse">Click to Reveal Intention</p></div>
-                <div class="reveal-content"><div class="flex items-center gap-2 mb-2"><span class="text-sm font-bold text-gray-500 uppercase">Intention:</span><span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded uppercase">${item.intention}</span></div><div class="bg-gray-50 p-3 rounded-lg border border-gray-100"><p class="text-gray-800">${item.reported.replace(/\*\*(.*?)\*\*/g, '<strong class="text-primary">$1</strong>')}</p></div></div>`;
-            return card;
-        }
-
-        // Updated for Spoiler-Proof UI
-        function createSuspectFile(role) {
-            const btn = document.createElement('div');
-            btn.className = 'case-file bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md text-center group flex flex-col items-center justify-center h-40';
-            btn.onclick = () => openRoleModal(role);
-            btn.innerHTML = `
-                <span class="text-5xl mb-2 group-hover:scale-110 transition-transform">📂</span>
-                <span class="font-bold text-gray-700">CASE FILE #${role.id}</span>
-                <span class="text-xs text-gray-400 mt-1 uppercase tracking-widest">Confidential</span>
-            `;
-            return btn;
-        }
-
-        // Updated Voting Button Creator
-        function createVoteButton(role) {
-            const btn = document.createElement('button');
-            btn.className = 'vote-btn bg-gray-800 text-white p-4 rounded-xl font-bold flex flex-col items-center justify-center h-32 border-2 border-gray-700';
-            btn.innerHTML = `
-                <span class="text-3xl mb-1">${role.icon}</span>
-                <span class="text-xs uppercase">${role.title}</span>
-            `;
-            btn.onclick = function() {
-                if (this.classList.contains('sus')) {
-                    this.classList.remove('sus');
-                    this.classList.add('ejected');
-                } else if (this.classList.contains('ejected')) {
-                    this.classList.remove('ejected');
-                } else {
-                    this.classList.add('sus');
-                }
-            };
-            return btn;
-        }
-
-        function openRoleModal(role) {
-            const modal = document.getElementById('role-modal');
-            const content = document.getElementById('modal-content');
-            
-            content.innerHTML = `
-                <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-6xl mx-auto mb-6 shadow-inner border border-gray-300">
-                    ${role.icon}
-                </div>
-                <h3 class="text-3xl font-black text-dark mb-2 font-mono uppercase">${role.title}</h3>
-                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-left my-6">
-                    <p class="text-xs text-yellow-600 font-bold uppercase mb-1">Your Starting Phrase (Direct Speech)</p>
-                    <p class="font-serif italic text-xl text-gray-800">${role.start}</p>
-                </div>
-                <div class="text-left bg-gray-800 p-4 rounded-lg text-white">
-                    <p class="text-xs text-gray-400 font-bold uppercase mb-1">Status Report</p>
-                    <p class="text-sm leading-relaxed">${role.secret}</p>
-                </div>
-            `;
-            
-            modal.classList.remove('hidden');
-        }
-
-        function closeRoleModal() {
-            document.getElementById('role-modal').classList.add('hidden');
-        }
-
-        // --- NEW: Textbook Pop-out Logic ---
-        function openTextbookModal() {
-            const modal = document.getElementById('textbook-modal');
-            const exercisesSource = document.getElementById('textbook-exercises-panel');
-            const exercisesDest = document.getElementById('modal-exercises-container');
-            
-            // Clone exercises into modal to preserve original
-            exercisesDest.innerHTML = exercisesSource.innerHTML;
-            
-            // Re-bind inline onclick handlers if necessary or they work automatically via bubbling
-            // Simple cloning works for basic HTML structure
-            
-            modal.classList.remove('hidden');
-        }
-
-        function closeTextbookModal() {
-            document.getElementById('textbook-modal').classList.add('hidden');
-        }
-
         function renderVerbGroups() {
             const container = document.getElementById('verb-groups-container');
             container.innerHTML = '';
@@ -1301,46 +1312,11 @@
             }
         }
 
-        function initChart() {
-            const ctx = document.getElementById('verbFunctionChart');
-            if (!ctx) return;
-            const functions = {};
-            allVerbs.forEach(v => { if (!functions[v.func]) functions[v.func] = 0; functions[v.func]++; });
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Object.keys(functions),
-                    datasets: [{ label: 'Count', data: Object.values(functions), backgroundColor: ['rgba(255, 107, 107, 0.8)', 'rgba(78, 205, 196, 0.8)', 'rgba(255, 209, 102, 0.8)', 'rgba(45, 52, 54, 0.8)', 'rgba(6, 214, 160, 0.8)'], borderRadius: 6, borderSkipped: false }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { backgroundColor: '#2D3436', padding: 12, titleFont: { family: 'Inter', size: 14 }, bodyFont: { family: 'Inter', size: 13 } } }, scales: { y: { beginAtZero: true, grid: { display: false }, ticks: { font: { family: 'Inter' } } }, x: { grid: { display: false }, ticks: { font: { family: 'Inter', weight: 'bold' } } } }, animation: { duration: 1500, easing: 'easeOutQuart' } }
-            });
-        }
-
-        // --- Gemini API (Preserved) ---
-        async function callGeminiWithExponentialBackoff(prompt, maxRetries = 3) {
-            let delay = 1000;
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }], generationConfig: { temperature: 0.9, topK: 40, topP: 0.95 } };
-            for (let i = 0; i < maxRetries; i++) {
-                try {
-                    const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-                    if (!response.ok) throw new Error(`Status: ${response.status}`);
-                    const result = await response.json();
-                    return result.candidates?.[0]?.content?.parts?.[0]?.text || "No response generated.";
-                } catch (error) {
-                    if (i === maxRetries - 1) { console.error("API Failure", error); return null; }
-                    await new Promise(res => setTimeout(res, delay));
-                    delay *= 2;
-                }
-            }
-        }
-
         // --- App Initialization & Event Listeners ---
         document.addEventListener('DOMContentLoaded', () => {
             renderVerbGroups();
             renderDetectiveGame();
             renderSuspects();
-            initChart();
             loadNewQuizQuestion();
             loadPrepositionDrill();
 
@@ -1348,52 +1324,37 @@
             const scenarioBox = document.getElementById('scenario-box');
             const scenarioText = document.getElementById('scenario-text');
             const directQuoteText = document.getElementById('direct-quote-text');
+            const speakerText = document.getElementById('speaker-text');
             const userInput = document.getElementById('user-input');
             const checkBtn = document.getElementById('check-sentence-btn');
             const feedbackBox = document.getElementById('feedback-box');
-            const feedbackLoader = document.getElementById('feedback-loader');
             const feedbackText = document.getElementById('feedback-text');
+            const verdictTitle = document.getElementById('verdict-title');
+            const correctAnswerText = document.getElementById('correct-answer-text');
             
-            let currentVerb = '';
-
-            generateBtn.addEventListener('click', async () => {
-                generateBtn.disabled = true;
-                generateBtn.innerHTML = '<span class="loader border-t-white w-5 h-5 border-2"></span> Generating...';
-                scenarioBox.classList.add('hidden');
-                const randomVerb = allVerbs[Math.floor(Math.random() * allVerbs.length)];
-                currentVerb = randomVerb.verb;
-                const prompt = `Generate a JSON object with a single key "quote". The value should be a short, direct quote (1 sentence) spoken by Thomas Edison or Nikola Tesla during the War of the Currents. The quote must be suitable for reporting using the verb "${currentVerb}". Example: {"quote": "AC power is far superior."}`;
-                const response = await callGeminiWithExponentialBackoff(prompt);
-                if (response) {
-                    try {
-                        const jsonStr = response.replace(/```json|```/g, '').trim();
-                        const data = JSON.parse(jsonStr);
-                        scenarioBox.classList.remove('hidden');
-                        scenarioText.innerHTML = `Report this quote using <span class="text-primary font-bold">"${currentVerb}"</span>.`;
-                        directQuoteText.textContent = `"${data.quote}"`;
-                        userInput.value = '';
-                        feedbackBox.classList.add('hidden');
-                        setTimeout(() => scenarioBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
-                    } catch (e) { alert("Could not parse the history books. Please try again!"); }
-                } else { alert("The telegraph lines are down (API Error). Please try again."); }
-                generateBtn.disabled = false;
-                generateBtn.innerHTML = '<span>🎲</span> Generate New Scenario';
+            generateBtn.addEventListener('click', () => {
+                scenarioBox.classList.remove('hidden');
+                // Pick random scenario
+                currentScenario = offlineScenarios[Math.floor(Math.random() * offlineScenarios.length)];
+                
+                scenarioText.innerHTML = `Report this quote using <span class="text-primary font-bold">"${currentScenario.verb}"</span>.`;
+                directQuoteText.textContent = `"${currentScenario.quote}"`;
+                speakerText.textContent = `- ${currentScenario.speaker}`;
+                userInput.value = '';
+                feedbackBox.classList.add('hidden');
+                setTimeout(() => scenarioBox.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
             });
 
-            checkBtn.addEventListener('click', async () => {
+            checkBtn.addEventListener('click', () => {
                 const userSentence = userInput.value.trim();
                 if (!userSentence) return;
-                checkBtn.disabled = true;
-                checkBtn.innerHTML = 'Analyzing...';
+                
                 feedbackBox.classList.remove('hidden');
-                feedbackLoader.classList.remove('hidden');
-                feedbackText.innerHTML = '';
-                const prompt = `Act as a supportive English grammar teacher. Task: A student is converting a Direct Quote to Reported Speech. Verb to use: "${currentVerb}". Direct Quote: "${directQuoteText.textContent}". Student Answer: "${userSentence}". Please provide: 1. A verdict (Correct/Incorrect) with an emoji. 2. A brief explanation of the grammar rules (tense shift, pronouns, pattern). 3. The perfect version if theirs was wrong. Keep it concise and encouraging.`;
-                const response = await callGeminiWithExponentialBackoff(prompt);
-                feedbackLoader.classList.add('hidden');
-                feedbackText.innerHTML = response || "Could not generate feedback.";
-                checkBtn.disabled = false;
-                checkBtn.innerHTML = '<span>✨</span> Get AI Feedback';
+                
+                // Simple feedback logic for offline mode
+                verdictTitle.innerHTML = 'Review Time 🧐';
+                feedbackText.innerHTML = "Compare your answer with the suggested correct version below. Did you use the correct verb pattern?";
+                correctAnswerText.textContent = currentScenario.answer;
             });
         });
     </script>
